@@ -38,6 +38,7 @@ CREATE TABLE applicant (
     `portfolio` VARCHAR(100),
     `soft_skills` VARCHAR(512),
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `referral_company_name` VARCHAR(50),
     FOREIGN KEY (`country_id`) REFERENCES country_lookup (`id`)
 );
 
