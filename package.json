@@ -2,10 +2,15 @@
   "name": "hy_business-backend",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix src/",
+    "formatter:find": "prettier --ignore-path .gitignore --write \"./src/**/*.+(js|ts|json)\"",
+    "formatter:fix": "prettier --write src"
   },
   "repository": {
     "type": "git",
@@ -35,6 +40,7 @@
     "prisma": "^5.20.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.11.1",
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
     "@types/express-rate-limit": "^6.0.0",
@@ -43,6 +49,8 @@
     "@types/ms": "^0.7.34",
     "@types/multer": "^1.4.12",
     "@types/node": "^22.7.4",
+    "@typescript-eslint/eslint-plugin": "^8.7.0",
+    "@typescript-eslint/parser": "^8.7.0",
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-node": "^11.1.0",

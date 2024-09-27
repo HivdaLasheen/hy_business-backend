@@ -1,7 +1,7 @@
 import env from "./env";
 
 const config = {
-    ...env,
+  ...env,
 };
 
 export default config;
