@@ -7,7 +7,7 @@ USE hy_business;
 DROP TABLE IF EXISTS country_lookup;
 
 CREATE TABLE country_lookup (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(100),
     `region` VARCHAR(50)
 );
@@ -15,7 +15,7 @@ CREATE TABLE country_lookup (
 DROP TABLE IF EXISTS applicant;
 
 CREATE TABLE applicant (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `password` VARCHAR(512) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
     `first_name` VARCHAR(50) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE applicant (
         'female',
         'not-preferred-to-say'
     ) DEFAULT 'not-preferred-to-say',
-    `country_id` INT NOT NULL,
+    `country_id` INT UNSIGNED NOT NULL,
     `city` VARCHAR(100),
     `religion` VARCHAR(50),
     `ethnicity` VARCHAR(50),
@@ -45,7 +45,7 @@ CREATE TABLE applicant (
 DROP TABLE IF EXISTS applicant_education;
 
 CREATE TABLE applicant_education (
-    `applicant_id` INT PRIMARY KEY,
+    `applicant_id` INT UNSIGNED PRIMARY KEY,
     `major` VARCHAR(100),
     `degree` VARCHAR(100),
     `graduation_year` INT,
@@ -57,7 +57,7 @@ CREATE TABLE applicant_education (
 DROP TABLE IF EXISTS applicant_job_preferences;
 
 CREATE TABLE applicant_job_preferences (
-    `applicant_id` INT PRIMARY KEY,
+    `applicant_id` INT UNSIGNED PRIMARY KEY,
     `disruptions` VARCHAR(512),
     `remote_work_availability` TINYINT(1),
     `relocation` TINYINT(1),
@@ -69,15 +69,15 @@ CREATE TABLE applicant_job_preferences (
 DROP TABLE IF EXISTS languages_lookup;
 
 CREATE TABLE languages_lookup (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(50)
 );
 
 DROP TABLE IF EXISTS applicants_languages;
 
 CREATE TABLE applicants_languages (
-    `applicant_id` INT NOT NULL,
-    `language_id` INT NOT NULL,
+    `applicant_id` INT UNSIGNED NOT NULL,
+    `language_id` INT UNSIGNED NOT NULL,
     `level` ENUM(
         'A1',
         'A2',
@@ -95,8 +95,8 @@ CREATE TABLE applicants_languages (
 DROP TABLE IF EXISTS applicant_interest_job_roles;
 
 CREATE TABLE applicant_interest_job_roles (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `applicant_id` INT,
+    `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `applicant_id` INT UNSIGNED,
     `role` VARCHAR(50) NOT NULL,
     FOREIGN KEY (`applicant_id`) REFERENCES applicant (`id`) ON DELETE CASCADE
 );
@@ -104,7 +104,7 @@ CREATE TABLE applicant_interest_job_roles (
 DROP TABLE IF EXISTS applicant_work_experience;
 
 CREATE TABLE applicant_work_experience (
-    `applicant_id` INT PRIMARY KEY,
+    `applicant_id` INT UNSIGNED PRIMARY KEY,
     `years_of_experience` FLOAT,
     `role` VARCHAR(50) NOT NULL,
     `resume` VARCHAR(512),
@@ -115,15 +115,15 @@ CREATE TABLE applicant_work_experience (
 DROP TABLE IF EXISTS tech_skills_lookup;
 
 CREATE TABLE tech_skills_lookup (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(100)
 );
 
 DROP TABLE IF EXISTS applicant_prev_work_experience;
 
 CREATE TABLE applicant_prev_work_experience (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `applicant_id` INT,
+    `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `applicant_id` INT UNSIGNED,
     `start_date` DATE NOT NULL,
     `end_date` DATE,
     `company_name` VARCHAR(50) NOT NULL,
@@ -135,8 +135,8 @@ CREATE TABLE applicant_prev_work_experience (
 DROP TABLE IF EXISTS applicant_prev_work_experience_skills;
 
 CREATE TABLE applicant_prev_work_experience_skills (
-    `prev_work_id` INT NOT NULL,
-    `skill_id` INT NOT NULL,
+    `prev_work_id` INT UNSIGNED NOT NULL,
+    `skill_id` INT UNSIGNED NOT NULL,
     `proficiency_level` ENUM(
         'Beginner',
         'Intermediate',
@@ -151,7 +151,7 @@ CREATE TABLE applicant_prev_work_experience_skills (
 DROP TABLE IF EXISTS organization;
 
 CREATE TABLE `organization` (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `email` VARCHAR(100) NOT NULL,
     `password` VARCHAR(512) NOT NULL,
     `name` VARCHAR(50) NOT NULL,
@@ -169,10 +169,10 @@ CREATE TABLE `organization` (
 DROP TABLE IF EXISTS organization_locations;
 
 CREATE TABLE organization_locations (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `organization_id` INT NOT NULL,
+    `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `organization_id` INT UNSIGNED NOT NULL,
     `is_head_office` TINYINT(1) DEFAULT 0,
-    `country_id` INT,
+    `country_id` INT UNSIGNED,
     `state` VARCHAR(50),
     `city` VARCHAR(50),
     `address` VARCHAR(100),
@@ -185,8 +185,8 @@ CREATE TABLE organization_locations (
 DROP TABLE IF EXISTS job_roles;
 
 CREATE TABLE job_roles (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `organization_id` INT NOT NULL,
+    `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `organization_id` INT UNSIGNED NOT NULL,
     `status` ENUM('active', 'closed', 'on_hold') DEFAULT 'active',
     `job_title` VARCHAR(100) NOT NULL,
     `type` VARCHAR(50) NOT NULL,
@@ -210,8 +210,8 @@ CREATE TABLE job_roles (
 DROP TABLE IF EXISTS job_role_languages;
 
 CREATE TABLE job_role_languages (
-    `job_role_id` INT NOT NULL,
-    `language_id` INT NOT NULL,
+    `job_role_id` INT UNSIGNED NOT NULL,
+    `language_id` INT UNSIGNED NOT NULL,
     `level` ENUM(
         'A1',
         'A2',
@@ -226,8 +226,8 @@ CREATE TABLE job_role_languages (
 );
 
 CREATE TABLE job_role_skills (
-    `job_role_id` INT NOT NULL,
-    `skill_id` INT NOT NULL,
+    `job_role_id` INT UNSIGNED NOT NULL,
+    `skill_id` INT UNSIGNED NOT NULL,
     `proficiency_level` ENUM(
         'Beginner',
         'Intermediate',
@@ -242,8 +242,8 @@ CREATE TABLE job_role_skills (
 DROP TABLE IF EXISTS applicant_allowed_job_roles;
 
 CREATE TABLE applicant_allowed_job_roles (
-    `applicant_id` INT NOT NULL,
-    `job_role_id` INT NOT NULL,
+    `applicant_id` INT UNSIGNED NOT NULL,
+    `job_role_id` INT UNSIGNED NOT NULL,
     `status` VARCHAR(50) DEFAULT('Pending'),
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`applicant_id`) REFERENCES applicant (`id`),
@@ -254,7 +254,7 @@ CREATE TABLE applicant_allowed_job_roles (
 DROP TABLE IF EXISTS `admin`;
 
 CREATE TABLE `admin` (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `username` VARCHAR(100) NOT NULL,
     `password` VARCHAR(512) NOT NULL
 );
@@ -262,8 +262,8 @@ CREATE TABLE `admin` (
 DROP TABLE IF EXISTS job_descriptions_recommendation;
 
 CREATE TABLE job_descriptions_recommendation (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `job_role_id` INT NOT NULL,
+    `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `job_role_id` INT UNSIGNED NOT NULL,
     `description` VARCHAR(1024),
     `accepted` TINYINT(1) DEFAULT 0,
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
