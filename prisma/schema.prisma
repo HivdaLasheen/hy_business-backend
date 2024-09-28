@@ -6,3 +6,345 @@ datasource db {
   provider = "mysql"
   url      = env("DB_URL")
 }
+
+model Admin {
+  id       Int    @id @default(autoincrement()) @db.UnsignedInt
+  username String @db.VarChar(100)
+  password String @db.VarChar(512)
+
+  @@map("admin")
+}
+
+model Applicant {
+  id                           Int                           @id @default(autoincrement()) @db.UnsignedInt
+  email                        String                        @unique @db.VarChar(100)
+  password                     String                        @db.VarChar(512)
+  firstName                    String                        @map("first_name") @db.VarChar(50)
+  middleName                   String?                       @map("middle_name") @db.VarChar(50)
+  lastName                     String                        @map("last_name") @db.VarChar(50)
+  profilePicture               String?                       @map("profile_picture") @db.VarChar(512)
+  dateOfBirth                  DateTime                      @map("date_of_birth") @db.Date
+  gender                       applicant_gender?             @default(not_preferred_to_say)
+  countryId                    Int                           @map("country_id") @db.UnsignedInt
+  city                         String?                       @db.VarChar(100)
+  religion                     String?                       @db.VarChar(50)
+  ethnicity                    String?                       @db.VarChar(50)
+  phoneNumber                  String?                       @map("phone_number") @db.VarChar(50)
+  linkedin                     String?                       @db.VarChar(100)
+  github                       String?                       @db.VarChar(100)
+  portfolio                    String?                       @db.VarChar(100)
+  softSkills                   String?                       @map("soft_skills") @db.VarChar(512)
+  createdAt                    DateTime?                     @default(now()) @map("created_at") @db.DateTime(0)
+  referralCompanyName          String?                       @map("referral_company_name") @db.VarChar(50)
+  countryLookup                CountryLookup                 @relation(fields: [countryId], references: [id], onUpdate: Restrict, map: "applicant_ibfk_1")
+  applicantAllowedJobRoles     ApplicantAllowedJobRoles[]
+  applicantAuth                ApplicantAuth?
+  applicantEducation           ApplicantEducation?
+  applicantInterestJobRoles    ApplicantInterestJobRoles[]
+  applicantJobPreferences      ApplicantJobPreferences?
+  applicantPrevWorkExperiences ApplicantPrevWorkExperience[]
+  applicantWorkExperience      ApplicantWorkExperience?
+  applicantsLanguages          ApplicantsLanguages[]
+
+  @@index([countryId], map: "country_id")
+  @@map("applicant")
+}
+
+model ApplicantAllowedJobRoles {
+  applicantId Int       @map("applicant_id") @db.UnsignedInt
+  jobRoleId   Int       @map("job_role_id") @db.UnsignedInt
+  status      String?   @default("Pending") @db.VarChar(50)
+  createdAt   DateTime? @default(now()) @map("created_at") @db.DateTime(0)
+  applicant   Applicant @relation(fields: [applicantId], references: [id], onUpdate: Restrict, map: "applicant_allowed_job_roles_ibfk_1")
+  jobRoles    JobRoles  @relation(fields: [jobRoleId], references: [id], onUpdate: Restrict, map: "applicant_allowed_job_roles_ibfk_2")
+
+  @@id([applicantId, jobRoleId])
+  @@index([jobRoleId], map: "job_role_id")
+  @@map("applicant_allowed_job_roles")
+}
+
+model ApplicantAuth {
+  applicantId           Int       @id @map("applicant_id") @db.UnsignedInt
+  isEmailVerified       Boolean?  @default(false) @map("is_email_verified")
+  emailToken            String?   @map("email_token") @db.VarChar(240)
+  emailTokenExp         DateTime? @map("email_token_exp") @db.DateTime(0)
+  resetPasswordToken    String?   @map("reset_password_token") @db.VarChar(240)
+  resetPasswordTokenExp DateTime? @map("reset_password_token_exp") @db.DateTime(0)
+  applicant             Applicant @relation(fields: [applicantId], references: [id], onUpdate: Restrict, map: "applicant_auth_ibfk_1")
+
+  @@map("applicant_auth")
+}
+
+model ApplicantEducation {
+  applicantId    Int       @id @map("applicant_id") @db.UnsignedInt
+  major          String?   @db.VarChar(100)
+  degree         String?   @db.VarChar(100)
+  graduationYear Int?      @map("graduation_year")
+  university     String?   @db.VarChar(100)
+  certificate    String?   @db.VarChar(512)
+  applicant      Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "applicant_education_ibfk_1")
+
+  @@map("applicant_education")
+}
+
+model ApplicantInterestJobRoles {
+  id          Int        @id @default(autoincrement()) @db.UnsignedInt
+  applicantId Int?       @map("applicant_id") @db.UnsignedInt
+  role        String     @db.VarChar(50)
+  applicant   Applicant? @relation(fields: [applicantId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "applicant_interest_job_roles_ibfk_1")
+
+  @@index([applicantId], map: "applicant_id")
+  @@map("applicant_interest_job_roles")
+}
+
+model ApplicantJobPreferences {
+  applicantId               Int       @id @map("applicant_id") @db.UnsignedInt
+  disruptions               String?   @db.VarChar(512)
+  remoteWorkAvailability    Boolean?  @map("remote_work_availability")
+  relocation                Boolean?
+  noticePeriodInDays        Int?      @map("notice_period_in_days")
+  preferredRegionsCountries String?   @map("preferred_regions_countries") @db.VarChar(512)
+  applicant                 Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "applicant_job_preferences_ibfk_1")
+
+  @@map("applicant_job_preferences")
+}
+
+model ApplicantPrevWorkExperience {
+  id                                Int                                 @id @default(autoincrement()) @db.UnsignedInt
+  applicantId                       Int?                                @map("applicant_id") @db.UnsignedInt
+  startDate                         DateTime                            @map("start_date") @db.Date
+  endDate                           DateTime?                           @map("end_date") @db.Date
+  companyName                       String                              @map("company_name") @db.VarChar(50)
+  jobTitle                          String                              @map("job_title") @db.VarChar(50)
+  description                       String?                             @db.VarChar(512)
+  applicant                         Applicant?                          @relation(fields: [applicantId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "applicant_prev_work_experience_ibfk_1")
+  applicantPrevWorkExperienceSkills ApplicantPrevWorkExperienceSkills[]
+
+  @@index([applicantId], map: "applicant_id")
+  @@map("applicant_prev_work_experience")
+}
+
+model ApplicantPrevWorkExperienceSkills {
+  prevWorkId                  Int                                                     @map("prev_work_id") @db.UnsignedInt
+  skillId                     Int                                                     @map("skill_id") @db.UnsignedInt
+  proficiencyLevel            applicant_prev_work_experience_skills_proficiency_level
+  applicantPrevWorkExperience ApplicantPrevWorkExperience                             @relation(fields: [prevWorkId], references: [id], onUpdate: Restrict, map: "applicant_prev_work_experience_skills_ibfk_1")
+  techSkillsLookup            TechSkillsLookup                                        @relation(fields: [skillId], references: [id], onUpdate: Restrict, map: "applicant_prev_work_experience_skills_ibfk_2")
+
+  @@id([prevWorkId, skillId])
+  @@index([skillId], map: "skill_id")
+  @@map("applicant_prev_work_experience_skills")
+}
+
+model ApplicantWorkExperience {
+  applicantId       Int       @id @map("applicant_id") @db.UnsignedInt
+  yearsOfExperience Float?    @map("years_of_experience") @db.Float
+  role              String    @db.VarChar(50)
+  resume            String?   @db.VarChar(512)
+  certificates      String?   @db.VarChar(512)
+  applicant         Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "applicant_work_experience_ibfk_1")
+
+  @@map("applicant_work_experience")
+}
+
+model ApplicantsLanguages {
+  applicantId     Int                        @map("applicant_id") @db.UnsignedInt
+  languageId      Int                        @map("language_id") @db.UnsignedInt
+  level           applicants_languages_level
+  certificate     String?                    @db.VarChar(512)
+  applicant       Applicant                  @relation(fields: [applicantId], references: [id], onUpdate: Restrict, map: "applicants_languages_ibfk_1")
+  languagesLookup LanguagesLookup            @relation(fields: [languageId], references: [id], onUpdate: Restrict, map: "applicants_languages_ibfk_2")
+
+  @@id([applicantId, languageId])
+  @@index([languageId], map: "language_id")
+  @@map("applicants_languages")
+}
+
+model CountryLookup {
+  id                    Int                     @id @default(autoincrement()) @db.UnsignedInt
+  name                  String?                 @db.VarChar(100)
+  region                String?                 @db.VarChar(50)
+  applicants            Applicant[]
+  organizationLocations OrganizationLocations[]
+
+  @@map("country_lookup")
+}
+
+model JobDescriptionsRecommendation {
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  jobRoleId   Int       @map("job_role_id") @db.UnsignedInt
+  description String?   @db.VarChar(1024)
+  accepted    Boolean?  @default(false)
+  createdAt   DateTime? @default(now()) @map("created_at") @db.DateTime(0)
+  jobRoles    JobRoles  @relation(fields: [jobRoleId], references: [id], onUpdate: Restrict, map: "job_descriptions_recommendation_ibfk_1")
+
+  @@index([jobRoleId], map: "job_role_id")
+  @@map("job_descriptions_recommendation")
+}
+
+model JobRoleLanguages {
+  jobRoleId       Int                      @map("job_role_id") @db.UnsignedInt
+  languageId      Int                      @map("language_id") @db.UnsignedInt
+  level           job_role_languages_level
+  jobRoles        JobRoles                 @relation(fields: [jobRoleId], references: [id], onUpdate: Restrict, map: "job_role_languages_ibfk_1")
+  languagesLookup LanguagesLookup          @relation(fields: [languageId], references: [id], onUpdate: Restrict, map: "job_role_languages_ibfk_2")
+
+  @@id([jobRoleId, languageId])
+  @@index([languageId], map: "language_id")
+  @@map("job_role_languages")
+}
+
+model JobRoleSkills {
+  jobRoleId        Int                               @map("job_role_id") @db.UnsignedInt
+  skillId          Int                               @map("skill_id") @db.UnsignedInt
+  proficiencyLevel job_role_skills_proficiency_level
+  jobRoles         JobRoles                          @relation(fields: [jobRoleId], references: [id], onUpdate: Restrict, map: "job_role_skills_ibfk_1")
+  techSkillsLookup TechSkillsLookup                  @relation(fields: [skillId], references: [id], onUpdate: Restrict, map: "job_role_skills_ibfk_2")
+
+  @@id([jobRoleId, skillId])
+  @@index([skillId], map: "skill_id")
+  @@map("job_role_skills")
+}
+
+model JobRoles {
+  id                             Int                             @id @default(autoincrement()) @db.UnsignedInt
+  organizationId                 Int                             @map("organization_id") @db.UnsignedInt
+  status                         job_roles_status?               @default(active)
+  jobTitle                       String                          @map("job_title") @db.VarChar(100)
+  type                           String                          @db.VarChar(50)
+  maxRequiredYearsOfExp          Float?                          @map("max_required_years_of_exp") @db.Float
+  minRequiredYearsOfExp          Float                           @map("min_required_years_of_exp") @db.Float
+  seniority                      String                          @db.VarChar(50)
+  description                    String                          @db.VarChar(1024)
+  startDate                      DateTime                        @map("start_date") @db.Date
+  endDate                        DateTime?                       @map("end_date") @db.Date
+  visaAvailability               Boolean                         @map("visa_availability")
+  remoteWorkAvailability         Boolean                         @map("remote_work_availability")
+  relocationPreferences          Boolean                         @map("relocation_preferences")
+  salary                         Int?
+  isUrgent                       Boolean?                        @map("is_urgent")
+  maxPeriodNotice                Int?                            @map("max_period_notice")
+  numberOfVacant                 Int?                            @map("number_of_vacant")
+  createdAt                      DateTime?                       @default(now()) @map("created_at") @db.DateTime(0)
+  applicantAllowedJobRoles       ApplicantAllowedJobRoles[]
+  jobDescriptionsRecommendations JobDescriptionsRecommendation[]
+  jobRoleLanguages               JobRoleLanguages[]
+  jobRoleSkills                  JobRoleSkills[]
+  organization                   Organization                    @relation(fields: [organizationId], references: [id], onUpdate: Restrict, map: "job_roles_ibfk_1")
+
+  @@index([organizationId], map: "organization_id")
+  @@map("job_roles")
+}
+
+model LanguagesLookup {
+  id                  Int                   @id @default(autoincrement()) @db.UnsignedInt
+  name                String?               @db.VarChar(50)
+  applicantsLanguages ApplicantsLanguages[]
+  jobRoleLanguages    JobRoleLanguages[]
+
+  @@map("languages_lookup")
+}
+
+model Organization {
+  id                    Int                     @id @default(autoincrement()) @db.UnsignedInt
+  email                 String                  @unique @db.VarChar(100)
+  password              String                  @db.VarChar(512)
+  name                  String                  @db.VarChar(50)
+  type                  String                  @db.VarChar(50)
+  isVirtual             Boolean?                @map("is_virtual")
+  logo                  String?                 @db.VarChar(512)
+  linkedin              String                  @db.VarChar(100)
+  website               String?                 @db.VarChar(100)
+  phoneNumber           String?                 @map("phone_number") @db.VarChar(50)
+  industry              String?                 @db.VarChar(50)
+  sizeOfCompany         String?                 @map("size_of_company") @db.VarChar(50)
+  createdAt             DateTime?               @default(now()) @map("created_at") @db.DateTime(0)
+  jobRoles              JobRoles[]
+  organizationAuth      OrganizationAuth?
+  organizationLocations OrganizationLocations[]
+
+  @@map("organization")
+}
+
+model OrganizationAuth {
+  organizationId        Int          @id @map("organization_id") @db.UnsignedInt
+  isEmailVerified       Boolean?     @default(false) @map("is_email_verified")
+  emailToken            String?      @map("email_token") @db.VarChar(240)
+  emailTokenExp         DateTime?    @map("email_token_exp") @db.DateTime(0)
+  resetPasswordToken    String?      @map("reset_password_token") @db.VarChar(240)
+  resetPasswordTokenExp DateTime?    @map("reset_password_token_exp") @db.DateTime(0)
+  organization          Organization @relation(fields: [organizationId], references: [id], onUpdate: Restrict, map: "organization_auth_ibfk_1")
+
+  @@map("organization_auth")
+}
+
+model OrganizationLocations {
+  id             Int            @id @default(autoincrement()) @db.UnsignedInt
+  organizationId Int            @map("organization_id") @db.UnsignedInt
+  isHeadOffice   Boolean?       @default(false) @map("is_head_office")
+  countryId      Int?           @map("country_id") @db.UnsignedInt
+  state          String?        @db.VarChar(50)
+  city           String?        @db.VarChar(50)
+  address        String?        @db.VarChar(100)
+  zipCode        String?        @map("zip_code") @db.VarChar(20)
+  createdAt      DateTime?      @default(now()) @map("created_at") @db.DateTime(0)
+  organization   Organization   @relation(fields: [organizationId], references: [id], onUpdate: Restrict, map: "organization_locations_ibfk_1")
+  countryLookup  CountryLookup? @relation(fields: [countryId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "organization_locations_ibfk_2")
+
+  @@index([countryId], map: "country_id")
+  @@index([organizationId], map: "organization_id")
+  @@map("organization_locations")
+}
+
+model TechSkillsLookup {
+  id                                Int                                 @id @default(autoincrement()) @db.UnsignedInt
+  name                              String?                             @db.VarChar(100)
+  applicantPrevWorkExperienceSkills ApplicantPrevWorkExperienceSkills[]
+  jobRoleSkills                     JobRoleSkills[]
+
+  @@map("tech_skills_lookup")
+}
+
+enum job_role_skills_proficiency_level {
+  Beginner
+  Intermediate
+  Advanced
+  Expert
+}
+
+enum job_role_languages_level {
+  A1
+  A2
+  B1
+  B2
+  Fluent
+  Native
+}
+
+enum applicants_languages_level {
+  A1
+  A2
+  B1
+  B2
+  Fluent
+  Native
+}
+
+enum job_roles_status {
+  active
+  closed
+  on_hold
+}
+
+enum applicant_prev_work_experience_skills_proficiency_level {
+  Beginner
+  Intermediate
+  Advanced
+  Expert
+}
+
+enum applicant_gender {
+  male
+  female
+  not_preferred_to_say @map("not-preferred-to-say")
+}

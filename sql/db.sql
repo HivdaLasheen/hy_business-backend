@@ -16,13 +16,13 @@ DROP TABLE IF EXISTS applicant;
 
 CREATE TABLE applicant (
     `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `email` VARCHAR(100) NOT NULL UNIQUE,
     `password` VARCHAR(512) NOT NULL,
-    `email` VARCHAR(100) NOT NULL,
     `first_name` VARCHAR(50) NOT NULL,
-    `last_name` VARCHAR(50) NOT NULL,
     `middle_name` VARCHAR(50),
+    `last_name` VARCHAR(50) NOT NULL,
     `profile_picture` VARCHAR(512),
-    `birth_of_date` DATE NOT NULL,
+    `date_of_birth` DATE NOT NULL,
     `gender` ENUM(
         'male',
         'female',
@@ -40,6 +40,18 @@ CREATE TABLE applicant (
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `referral_company_name` VARCHAR(50),
     FOREIGN KEY (`country_id`) REFERENCES country_lookup (`id`)
+);
+
+DROP TABLE IF EXISTS applicant_auth;
+
+CREATE TABLE applicant_auth (
+    `applicant_id` INT UNSIGNED PRIMARY KEY,
+    `is_email_verified` TINYINT(1) DEFAULT 0,
+    `email_token` VARCHAR(240),
+    `email_token_exp` DATETIME,
+    `reset_password_token` VARCHAR(240),
+    `reset_password_token_exp` DATETIME,
+    FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`id`)
 );
 
 DROP TABLE IF EXISTS applicant_education;
@@ -152,18 +164,30 @@ DROP TABLE IF EXISTS organization;
 
 CREATE TABLE `organization` (
     `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    `email` VARCHAR(100) NOT NULL,
+    `email` VARCHAR(100) NOT NULL UNIQUE,
     `password` VARCHAR(512) NOT NULL,
     `name` VARCHAR(50) NOT NULL,
     `type` VARCHAR(50) NOT NULL,
     `is_virtual` TINYINT(1),
     `logo` VARCHAR(512),
-    `linkedin` VARCHAR(100),
+    `linkedin` VARCHAR(100) NOT NULL,
     `website` VARCHAR(100),
     `phone_number` VARCHAR(50),
     `industry` VARCHAR(50),
     `size_of_company` VARCHAR(50),
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS organization_auth;
+
+CREATE TABLE organization_auth (
+    `organization_id` INT UNSIGNED PRIMARY KEY,
+    `is_email_verified` TINYINT(1) DEFAULT 0,
+    `email_token` VARCHAR(240),
+    `email_token_exp` DATETIME,
+    `reset_password_token` VARCHAR(240),
+    `reset_password_token_exp` DATETIME,
+    FOREIGN KEY (`organization_id`) REFERENCES `organization` (`id`)
 );
 
 DROP TABLE IF EXISTS organization_locations;

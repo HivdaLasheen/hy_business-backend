@@ -7,10 +7,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "lint": "eslint src/",
-    "lint:fix": "eslint --fix src/",
-    "formatter:find": "prettier --ignore-path .gitignore --write \"./src/**/*.+(js|ts|json)\"",
-    "formatter:fix": "prettier --write src"
+    "prisma:migrate": "prisma migrate dev"
   },
   "repository": {
     "type": "git",
