@@ -1,6 +1,11 @@
 import fs from "fs";
 import path from "path";
 
+/*
+ *
+ * @source: https://github.com/prisma/prisma/issues/1934#issuecomment-618063631
+ */
+
 const PRISMA_FILE_PATH = path.join("prisma", "schema.prisma");
 
 function snakeToCamel(str) {
