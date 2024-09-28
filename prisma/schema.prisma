@@ -17,7 +17,7 @@ model Admin {
 
 model Applicant {
   id                           Int                           @id @default(autoincrement()) @db.UnsignedInt
-  email                        String                        @unique @db.VarChar(100)
+  email                        String                        @unique @db.VarChar(254)
   password                     String                        @db.VarChar(512)
   firstName                    String                        @map("first_name") @db.VarChar(50)
   middleName                   String?                       @map("middle_name") @db.VarChar(50)
@@ -247,7 +247,7 @@ model LanguagesLookup {
 
 model Organization {
   id                    Int                     @id @default(autoincrement()) @db.UnsignedInt
-  email                 String                  @unique @db.VarChar(100)
+  email                 String                  @unique @db.VarChar(254)
   password              String                  @db.VarChar(512)
   name                  String                  @db.VarChar(50)
   type                  String                  @db.VarChar(50)

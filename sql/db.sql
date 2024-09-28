@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS applicant;
 
 CREATE TABLE applicant (
     `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    `email` VARCHAR(100) NOT NULL UNIQUE,
+    `email` VARCHAR(254) NOT NULL UNIQUE,
     `password` VARCHAR(512) NOT NULL,
     `first_name` VARCHAR(50) NOT NULL,
     `middle_name` VARCHAR(50),
@@ -164,7 +164,7 @@ DROP TABLE IF EXISTS organization;
 
 CREATE TABLE `organization` (
     `id` INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    `email` VARCHAR(100) NOT NULL UNIQUE,
+    `email` VARCHAR(254) NOT NULL UNIQUE,
     `password` VARCHAR(512) NOT NULL,
     `name` VARCHAR(50) NOT NULL,
     `type` VARCHAR(50) NOT NULL,
