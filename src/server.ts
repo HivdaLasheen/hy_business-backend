@@ -11,13 +11,13 @@ import authRouter from "./routes/auth";
 import statusRouter from "./routes/status";
 
 const app: Application = express();
-const port = config.PORT;
+const port = config.port;
 
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-if (config.ENV === "dev") {
+if (config.envType === "dev") {
   app.use(morgan("dev"));
 }
 
