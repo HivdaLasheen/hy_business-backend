@@ -47,9 +47,9 @@ DROP TABLE IF EXISTS applicant_auth;
 CREATE TABLE applicant_auth (
     `applicant_id` INT UNSIGNED PRIMARY KEY,
     `is_email_verified` TINYINT(1) DEFAULT 0,
-    `email_token` VARCHAR(240),
+    `email_token` VARCHAR(240) UNIQUE,
     `email_token_exp` DATETIME,
-    `reset_password_token` VARCHAR(240),
+    `reset_password_token` VARCHAR(240) UNIQUE,
     `reset_password_token_exp` DATETIME,
     FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`id`)
 );
@@ -183,9 +183,9 @@ DROP TABLE IF EXISTS organization_auth;
 CREATE TABLE organization_auth (
     `organization_id` INT UNSIGNED PRIMARY KEY,
     `is_email_verified` TINYINT(1) DEFAULT 0,
-    `email_token` VARCHAR(240),
+    `email_token` VARCHAR(240) UNIQUE,
     `email_token_exp` DATETIME,
-    `reset_password_token` VARCHAR(240),
+    `reset_password_token` VARCHAR(240) UNIQUE,
     `reset_password_token_exp` DATETIME,
     FOREIGN KEY (`organization_id`) REFERENCES `organization` (`id`)
 );

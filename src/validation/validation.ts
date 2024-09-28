@@ -9,7 +9,11 @@ import {
   genderValidator,
   countryValidator,
   cityValidator,
-} from "../validation/validators/auth-validators";
+} from "./validators/auth-validators";
+import {
+  roleValidator,
+  tokenValidator,
+} from "./validators/verification-validators";
 
 export const applicantSignUpValidators = [
   emailValidator,
@@ -23,3 +27,5 @@ export const applicantSignUpValidators = [
   countryValidator,
   cityValidator,
 ];
+
+export const verificationValidator = [tokenValidator, roleValidator];

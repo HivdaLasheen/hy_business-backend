@@ -3,6 +3,9 @@ import { validationResult } from "express-validator";
 import prisma from "../prisma";
 import createErrorObject from "../utils/createValidationErrorObject";
 import hashPassword from "../utils/hashPassword";
+import sendVerificationEmail from "../emails/sendVerificationEmail";
+import generateVerificationToken from "../utils/generateVerificationToken";
+import { Prisma } from "@prisma/client";
 
 export async function applicantSignup(
   req: Request,
@@ -53,16 +56,58 @@ export async function applicantSignup(
       lastName,
       dateOfBirth: new Date(dateOfBirth),
       gender,
+      city: city,
     },
   });
+
+  const verificationToken = generateVerificationToken(32);
+  const verificationTokenExp = Date.now() + 3600000;
 
   await prisma.applicantAuth.create({
     data: {
       applicantId: applicant.id,
+      emailToken: verificationToken,
+      emailTokenExp: new Date(verificationTokenExp),
     },
   });
 
-  return res.status(200).json({ message: "success" });
+  await sendVerificationEmail(email, verificationToken, "applicant");
+
+  return res
+    .status(201)
+    .json({ message: "Applicant created, please verify your email." });
 }
 
-export function login(req: Request, res: Response) {}
+export async function login(req: Request, res: Response): Promise<any> {}
+
+export async function verifyAccount(req: Request, res: Response): Promise<any> {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { token, role } = req.query as { token: string; role: string };
+  const roleTable = role === "applicant" ? "applicantAuth" : "organizationAuth";
+  const auth = await (prisma[roleTable] as any).findFirst({
+    where: {
+      emailToken: token,
+    },
+  });
+
+  if (!auth || !auth.emailTokenExp || auth.emailTokenExp.getTime() < Date.now())
+    return res.status(400).json({ message: "Invalid or expired token." });
+
+  if (auth.isEmailVerified)
+    return res.status(400).json({ message: "Account already verified." });
+
+  await (prisma[roleTable] as any).update({
+    where: {
+      emailToken: token,
+    },
+    data: {
+      isEmailVerified: true,
+    },
+  });
+
+  return res.status(200).json({ message: "Email verified successfully!" });
+}

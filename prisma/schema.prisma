@@ -66,9 +66,9 @@ model ApplicantAllowedJobRoles {
 model ApplicantAuth {
   applicantId           Int       @id @map("applicant_id") @db.UnsignedInt
   isEmailVerified       Boolean?  @default(false) @map("is_email_verified")
-  emailToken            String?   @map("email_token") @db.VarChar(240)
+  emailToken            String?   @unique @map("email_token") @db.VarChar(240)
   emailTokenExp         DateTime? @map("email_token_exp") @db.DateTime(0)
-  resetPasswordToken    String?   @map("reset_password_token") @db.VarChar(240)
+  resetPasswordToken    String?   @unique @map("reset_password_token") @db.VarChar(240)
   resetPasswordTokenExp DateTime? @map("reset_password_token_exp") @db.DateTime(0)
   applicant             Applicant @relation(fields: [applicantId], references: [id], onUpdate: Restrict, map: "applicant_auth_ibfk_1")
 
@@ -269,9 +269,9 @@ model Organization {
 model OrganizationAuth {
   organizationId        Int          @id @map("organization_id") @db.UnsignedInt
   isEmailVerified       Boolean?     @default(false) @map("is_email_verified")
-  emailToken            String?      @map("email_token") @db.VarChar(240)
+  emailToken            String?      @unique @map("email_token") @db.VarChar(240)
   emailTokenExp         DateTime?    @map("email_token_exp") @db.DateTime(0)
-  resetPasswordToken    String?      @map("reset_password_token") @db.VarChar(240)
+  resetPasswordToken    String?      @unique @map("reset_password_token") @db.VarChar(240)
   resetPasswordTokenExp DateTime?    @map("reset_password_token_exp") @db.DateTime(0)
   organization          Organization @relation(fields: [organizationId], references: [id], onUpdate: Restrict, map: "organization_auth_ibfk_1")
 

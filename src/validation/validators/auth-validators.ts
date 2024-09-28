@@ -1,5 +1,4 @@
 import { body } from "express-validator";
-import { Request } from "express";
 import prisma from "../../prisma";
 
 const emailValidator = body("email")
@@ -96,7 +95,7 @@ const cityValidator = body("city")
 
 const countryValidator = body("country").custom(
   async (value: string, { req }) => {
-    value = value.trim() ?? "";
+    value = value?.trim() ?? "";
     const countries = await prisma.countryLookup.findMany({
       where: {
         name: value?.toLowerCase(),
