@@ -5,12 +5,8 @@ import createErrorObject from "../utils/createValidationErrorObject";
 import hashPassword from "../utils/hashPassword";
 import sendVerificationEmail from "../emails/sendVerificationEmail";
 import generateVerificationToken from "../utils/generateVerificationToken";
-import { Prisma } from "@prisma/client";
 
-export async function applicantSignup(
-  req: Request,
-  res: Response
-): Promise<any> {
+async function applicantSignup(req: Request, res: Response): Promise<any> {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -78,9 +74,9 @@ export async function applicantSignup(
     .json({ message: "Applicant created, please verify your email." });
 }
 
-export async function login(req: Request, res: Response): Promise<any> {}
+async function login(req: Request, res: Response): Promise<any> {}
 
-export async function verifyAccount(req: Request, res: Response): Promise<any> {
+async function verifyAccount(req: Request, res: Response): Promise<any> {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -98,7 +94,7 @@ export async function verifyAccount(req: Request, res: Response): Promise<any> {
     return res.status(400).json({ message: "Invalid or expired token." });
 
   if (auth.isEmailVerified)
-    return res.status(400).json({ message: "Account already verified." });
+    return res.status(400).json({ message: "Account is already verified." });
 
   await (prisma[roleTable] as any).update({
     where: {
@@ -111,3 +107,5 @@ export async function verifyAccount(req: Request, res: Response): Promise<any> {
 
   return res.status(200).json({ message: "Email verified successfully!" });
 }
+
+export { applicantSignup, verifyAccount, login };

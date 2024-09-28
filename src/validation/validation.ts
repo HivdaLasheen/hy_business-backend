@@ -9,9 +9,10 @@ import {
   genderValidator,
   countryValidator,
   cityValidator,
+  roleValidator as loginRoleValidator,
 } from "./validators/auth-validators";
 import {
-  roleValidator,
+  roleValidator as verificationRoleValidator,
   tokenValidator,
 } from "./validators/verification-validators";
 
@@ -28,4 +29,13 @@ export const applicantSignUpValidators = [
   cityValidator,
 ];
 
-export const verificationValidator = [tokenValidator, roleValidator];
+export const loginValidation = [
+  emailValidator,
+  passwordValidator,
+  loginRoleValidator,
+];
+
+export const verificationValidator = [
+  tokenValidator,
+  verificationRoleValidator,
+];

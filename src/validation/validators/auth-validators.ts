@@ -46,7 +46,7 @@ const firstNameValidator = body("firstName")
   .isLength({ min: 2, max: 50 })
   .withMessage("First name must be between 2 and 50 characters.")
   .matches(NAME_REGEX)
-  .withMessage("First name is not valid")
+  .withMessage("First name is not valid.")
   .trim();
 
 const middleNameValidator = body("middleName")
@@ -54,7 +54,7 @@ const middleNameValidator = body("middleName")
   .isLength({ max: 50 })
   .withMessage("Middle name cannot be longer than 50 characters.")
   .matches(NAME_REGEX)
-  .withMessage("Middle name is not valid")
+  .withMessage("Middle name is not valid.")
   .trim();
 
 const lastNameValidator = body("lastName")
@@ -63,7 +63,7 @@ const lastNameValidator = body("lastName")
   .isLength({ min: 2, max: 50 })
   .withMessage("Last name must be between 2 and 50 characters.")
   .matches(NAME_REGEX)
-  .withMessage("Last name is not valid")
+  .withMessage("Last name is not valid.")
   .trim();
 
 const dateOfBirthValidator = body("dateOfBirth")
@@ -108,6 +108,42 @@ const countryValidator = body("country").custom(
   }
 );
 
+const organizationNameValidator = body("name")
+  .notEmpty()
+  .withMessage("Organization name is required.")
+  .isLength({ min: 2, max: 50 })
+  .withMessage("Organization name must be between 2 and 50 characters.")
+  .matches(NAME_REGEX)
+  .withMessage("Organization name is not valid.")
+  .trim();
+
+const organizationTypeValidator = body("type")
+  .notEmpty()
+  .withMessage("Organization Type is required.")
+  .isLength({ min: 2, max: 50 })
+  .withMessage("Organization name must be between 2 and 50 characters.")
+  .isAlpha()
+  .withMessage("Invalid type. Only alphabetic letters");
+
+const linkedinValidator = body("linkedin", "Please enter a valid Linkedin URL.")
+  .isLength({ min: 2, max: 100 })
+  .withMessage("Linkedin URL cannot be longer than 254 characters.")
+  .isURL({
+    protocols: ["http", "https"],
+    require_protocol: true,
+    require_tld: true,
+  });
+
+const requiredLinkedinValidator = linkedinValidator
+  .notEmpty()
+  .withMessage("Linked URL is required.");
+
+const roleValidator = body("role")
+  .notEmpty()
+  .withMessage("Role is required.")
+  .isIn(["applicant", "organization", "admin"])
+  .withMessage("Invalid role.");
+
 export {
   emailValidator,
   passwordValidator,
@@ -119,4 +155,9 @@ export {
   genderValidator,
   countryValidator,
   cityValidator,
+  organizationNameValidator,
+  organizationTypeValidator,
+  linkedinValidator,
+  requiredLinkedinValidator,
+  roleValidator,
 };

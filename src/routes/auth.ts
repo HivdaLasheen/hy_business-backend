@@ -3,13 +3,15 @@ import {
   applicantSignUpValidators,
   verificationValidator,
 } from "../validation/validation";
-import { applicantSignup, verifyAccount } from "../controllers/auth.controller";
+import {
+  applicantSignup,
+  login,
+  verifyAccount,
+} from "../controllers/auth.controller";
 
 const router: Router = Router();
 
-router.post("/login", (req: Request, res: Response) => {
-  res.send("TODO");
-});
+router.post("/login", login);
 
 router.post("/signup/applicant", applicantSignUpValidators, applicantSignup);
 router.get("/verify-email", verificationValidator, verifyAccount);
