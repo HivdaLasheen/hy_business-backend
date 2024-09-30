@@ -5,6 +5,7 @@ import morgan from "morgan";
 import prisma from "./prisma";
 import config from "./config";
 import errorsHandler from "./errors";
+import pageNotfoundHandler from "./errors/pageNotFound.error";
 import indexRouter from "./routes";
 import apiRouter from "./routes/api";
 import authRouter from "./routes/auth";
@@ -32,6 +33,7 @@ app.listen(port, () => {
 });
 
 app.use(errorsHandler);
+app.use(pageNotfoundHandler);
 
 process.on("SIGINT", async () => {
   await prisma.$disconnect();

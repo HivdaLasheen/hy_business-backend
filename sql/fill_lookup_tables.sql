@@ -1,4 +1,11 @@
 INSERT INTO
+    admin (username, password)
+VALUES (
+        'admin',
+        '$2a$10$QOlOettyefpstTAuk4Gzi.zOr0hB.a1Gm2gB52pOwAs.K4yo7iFPO'
+    );
+
+INSERT INTO
     tech_skills_lookup (`name`)
 VALUES ('Python'),
     ('JavaScript'),

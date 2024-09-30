@@ -7,9 +7,10 @@ export default function (
   res: Response,
   next: NextFunction
 ): any {
-  if (isJsonParseError(err)) {
-    return res.status(400).json({ error: "Invalid JSON payload" });
-  }
+  if (res.headersSent) return next(err);
+
+  if (isJsonParseError(err))
+    return res.status(400).json({ error: "Invalid JSON payload." });
 
   return next(err);
 }

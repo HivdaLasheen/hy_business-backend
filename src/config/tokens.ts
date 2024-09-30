@@ -1,9 +1,14 @@
 import ms from "ms";
 
 const tokensExpiration = {
-  jwtTokenExp: "1d",
-  jwtTokenExpMax: "30d",
-  cookieExp: ms("30d"),
+  jwt: {
+    tokenExp: "1d",
+    tokenExpMax: "30d",
+  },
+  cookie: {
+    expTime: ms("1d"),
+    expTimeMax: ms("30d"),
+  },
 };
 
 export default tokensExpiration;
