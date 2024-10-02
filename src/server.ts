@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import timeout from "connect-timeout";
 import prisma from "./prisma";
 import config from "./config";
 import errorsHandler from "./errors";
@@ -18,6 +19,11 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  timeout("60s", {
+    respond: true,
+  })
+);
 
 if (config.envType === "dev") {
   app.use(morgan("dev"));

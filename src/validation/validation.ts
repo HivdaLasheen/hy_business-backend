@@ -1,29 +1,8 @@
 import { body, query } from "express-validator";
 import { emailValidator } from "./validators/email.validators";
-import {
-  dateOfBirthValidator,
-  genderValidator,
-  countryValidator,
-  cityValidator,
-  roleValidator,
-  organizationTypeValidator,
-  requiredLinkedinValidator,
-  checkboxValidator,
-  requiredCheckboxValidator,
-  tokenValidator,
-} from "./validators/validators";
-import {
-  firstNameValidator,
-  lastNameValidator,
-  middleNameValidator,
-  organizationNameValidator,
-  usernameValidator,
-} from "./validators/name.validators";
-import {
-  passwordValidator,
-  confirmPasswordValidator,
-  loginPasswordValidator,
-} from "./validators/password.validators";
+import * as v from "./validators/validators";
+import * as n from "./validators/name.validators";
+import * as p from "./validators/password.validators";
 
 /**
  * An array of validators used for applicant sign-up.
@@ -42,15 +21,15 @@ import {
  */
 export const applicantSignUpValidators = [
   emailValidator,
-  passwordValidator,
-  confirmPasswordValidator,
-  firstNameValidator,
-  lastNameValidator,
-  middleNameValidator,
-  dateOfBirthValidator,
-  genderValidator,
-  countryValidator,
-  cityValidator,
+  p.passwordValidator,
+  p.confirmPasswordValidator,
+  n.firstNameValidator,
+  n.lastNameValidator,
+  n.middleNameValidator,
+  v.dateOfBirthValidator,
+  v.genderValidator,
+  v.countryValidator,
+  v.cityValidator,
 ];
 
 /**
@@ -64,9 +43,9 @@ export const applicantSignUpValidators = [
  */
 export const loginValidation = [
   emailValidator,
-  loginPasswordValidator,
-  roleValidator(["applicant", "organization"], body),
-  checkboxValidator("rememberMe"),
+  p.loginPasswordValidator,
+  v.roleValidator(["applicant", "organization"], body),
+  v.checkboxValidator("rememberMe"),
 ];
 
 /**
@@ -77,9 +56,9 @@ export const loginValidation = [
  * - `checkboxValidator("rememberMe")`: Validates the "remember me" checkbox.
  */
 export const adminLoginValidation = [
-  usernameValidator,
-  loginPasswordValidator,
-  checkboxValidator("rememberMe"),
+  n.usernameValidator,
+  p.loginPasswordValidator,
+  v.checkboxValidator("rememberMe"),
 ];
 
 /**
@@ -90,8 +69,8 @@ export const adminLoginValidation = [
  * - `roleValidator`: Middleware to validate the role of the user, ensuring it is either "applicant" or "organization".
  */
 export const verificationValidator = [
-  tokenValidator,
-  roleValidator(["applicant", "organization"], query),
+  v.tokenValidator,
+  v.roleValidator(["applicant", "organization"], query),
 ];
 
 /**
@@ -108,18 +87,38 @@ export const verificationValidator = [
  */
 export const organizationSignUpValidators = [
   emailValidator,
-  passwordValidator,
-  confirmPasswordValidator,
-  organizationNameValidator,
-  organizationTypeValidator,
-  requiredLinkedinValidator,
-  requiredCheckboxValidator("isVirtual"),
+  p.passwordValidator,
+  p.confirmPasswordValidator,
+  n.organizationNameValidator,
+  v.organizationTypeValidator,
+  v.requiredLinkedinValidator,
+  v.requiredCheckboxValidator("isVirtual"),
 ];
 
-export const requestPasswordResetValidators = [emailValidator];
+/**
+ * An array of validators used for the requesting a password reset.
+ *
+ * This array includes:
+ * - `emailValidator`: Ensures the email field is valid.
+ * - `roleValidator`: Ensures the role is either "applicant" or "organization".
+ */
+export const requestPasswordResetValidators = [
+  emailValidator,
+  v.roleValidator(["applicant", "organization"], body),
+];
 
+/**
+ * An array of validators used for resetting a password.
+ *
+ * This array includes the following validators:
+ * - `tokenValidator`: Validates the reset token.
+ * - `passwordValidator`: Validates the new password.
+ * - `confirmPasswordValidator`: Ensures the new password matches the confirmation password.
+ * - `roleValidator`: Validates the role, allowing only "applicant" or "organization" roles.
+ */
 export const resetPasswordValidators = [
-  tokenValidator,
-  passwordValidator,
-  confirmPasswordValidator,
+  v.tokenValidator,
+  p.passwordValidator,
+  p.confirmPasswordValidator,
+  v.roleValidator(["applicant", "organization"], query),
 ];

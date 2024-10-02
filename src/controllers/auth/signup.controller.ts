@@ -165,15 +165,14 @@ async function verifyAccount(req: Request, res: Response): Promise<any> {
   if (!auth || !auth.emailTokenExp || auth.emailTokenExp.getTime() < Date.now())
     return res.status(400).json({ message: "Invalid or expired token." });
 
-  if (auth.isEmailVerified)
-    return res.status(400).json({ message: "Account is already verified." });
-
   await (prisma[roleTable] as any).update({
     where: {
       emailToken: token,
     },
     data: {
       isEmailVerified: true,
+      emailToken: null,
+      emailTokenExp: null,
     },
   });
 
