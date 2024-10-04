@@ -1,3 +1,5 @@
+import { MulterError } from "multer";
+
 export default function isFileUploadError(err: any): boolean {
-  return false;
+  return err instanceof MulterError;
 }

@@ -9,6 +9,11 @@ import HttpStatusCodes from "../config/httpStatusCodes";
  *
  * @param {...string[]} roles - The roles that are allowed to access the route.
  * @returns {Function} Middleware function to handle role authorization.
+ *
+ * @example
+ * app.get("/admin", roleAuthorization("applicant", "admin"), (req, res) => {
+ *  res.json({ message: "Applicant and Admin route." });
+ * });
  */
 export default function roleAuthorization(...roles: string[]) {
   return (req: Request, res: Response, next: NextFunction): any => {

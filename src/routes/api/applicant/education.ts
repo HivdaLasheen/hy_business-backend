@@ -3,24 +3,31 @@ import validateRequest from "../../../middlewares/validateRequest.middleware";
 import { numberParamValidator } from "../../../validation/validators/path-parameter.validators";
 import roleAuthorization from "../../../middlewares/roleAuthorization.middleware";
 import idAuthorization from "../../../middlewares/idAuthorization.middleware";
+import {
+  uploadCertificate,
+  getCertificate,
+} from "../../../controllers/applicant/education.controller";
 
 const router: Router = Router({ mergeParams: true });
 const idParamValidation = [numberParamValidator("id"), validateRequest];
+const authorization = (roles: string[], allowAdmin = false) => [
+  roleAuthorization(...roles),
+  idAuthorization(allowAdmin),
+];
 
-// router.post(
-//   "/",
-//   idParamValidation,
-//   roleAuthorization("applicant", "admin"),
-//   idAuthorization(true),
-//   (req: Request, res: Response): any => {
-//     return res.status(200).json({ req: req.params });
-//   }
-// );
+// TODO: Implement this route, for getting all educations except certificate
+router.get("/", idParamValidation, authorization(["applicant", "admin"], true));
 
-router.post("/"); // TODO: Implement this route, for submitting and re-submitting education
-router.post("/certificate"); // TODO: Implement this route, for uploading and re-uploading certificates
+// TODO: Implement this route, for submitting and re-submitting education
+router.post("/", idParamValidation, authorization(["applicant"]));
 
-router.get("/"); // TODO: Implement this route, for getting all educations except certificate
-router.get("/certificate"); // TODO: Implement this route, for getting certificates
+router.get(
+  "/certificate",
+  idParamValidation,
+  authorization(["applicant", "admin"], true),
+  getCertificate
+);
+
+router.post("/certificate", idParamValidation, authorization(["applicant"]), ...uploadCertificate);
 
 export default router;
