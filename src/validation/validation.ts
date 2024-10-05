@@ -3,6 +3,7 @@ import { emailValidator } from "./validators/email.validators";
 import * as v from "./validators/validators";
 import * as n from "./validators/name.validators";
 import * as p from "./validators/password.validators";
+import * as e from "./validators/education.validators";
 
 /**
  * An array of validators used for applicant sign-up.
@@ -121,4 +122,11 @@ export const resetPasswordValidators = [
   p.passwordValidator,
   p.confirmPasswordValidator,
   v.roleValidator(["applicant", "organization"], query),
+];
+
+export const educationValidators = [
+  e.majorValidator,
+  e.degreeValidator,
+  e.graduationYearValidator,
+  e.universityValidator,
 ];

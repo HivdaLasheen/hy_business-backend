@@ -6,20 +6,29 @@ import idAuthorization from "../../../middlewares/idAuthorization.middleware";
 import {
   uploadCertificate,
   getCertificate,
+  postEducation,
+  getEducation,
 } from "../../../controllers/applicant/education.controller";
+import { educationValidators } from "../../../validation/validation";
 
 const router: Router = Router({ mergeParams: true });
+// TODO: move it to parent route (./index.ts)
 const idParamValidation = [numberParamValidator("id"), validateRequest];
 const authorization = (roles: string[], allowAdmin = false) => [
   roleAuthorization(...roles),
   idAuthorization(allowAdmin),
 ];
 
-// TODO: Implement this route, for getting all educations except certificate
-router.get("/", idParamValidation, authorization(["applicant", "admin"], true));
+router.get("/", idParamValidation, authorization(["applicant", "admin"], true), getEducation);
 
-// TODO: Implement this route, for submitting and re-submitting education
-router.post("/", idParamValidation, authorization(["applicant"]));
+router.post(
+  "/",
+  idParamValidation,
+  authorization(["applicant"]),
+  educationValidators,
+  validateRequest,
+  postEducation
+);
 
 router.get(
   "/certificate",
