@@ -1,5 +1,6 @@
 import { Router } from "express";
 import educationRouter from "./education";
+import languageRouter from "./language";
 
 const router: Router = Router();
 
@@ -8,8 +9,9 @@ router.get("/", (req, res) => {
 });
 
 router.use("/:id/education", educationRouter);
+router.use("/:id/languages", languageRouter);
+
 // router.use("/:id/work-experience");
 // router.use("/:id/job-preferences");
-// router.use("/:id/languages");
 
 export default router;
