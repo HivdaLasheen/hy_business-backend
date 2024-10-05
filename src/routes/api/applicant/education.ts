@@ -19,7 +19,7 @@ const authorization = (roles: string[], allowAdmin = false) => [
   idAuthorization(allowAdmin),
 ];
 
-router.get("/", idParamValidation, authorization(["applicant", "admin"], true), getEducation);
+router.get("/", authorization(["applicant", "admin"], true), getEducation);
 
 router.post(
   "/",
