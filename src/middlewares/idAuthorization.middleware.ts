@@ -19,13 +19,11 @@ import HttpStatusCodes from "../config/httpStatusCodes";
  */
 export default function idAuthorization(allowAdmin: boolean = false) {
   return (req: Request, res: Response, next: NextFunction): any => {
-    const { id } = req.params;
+    const id = Number(req.params.id);
     const { user } = res.locals;
 
     if ((allowAdmin && user.role === "admin") || id === user.id) return next();
 
-    return res
-      .status(HttpStatusCodes.FORBIDDEN)
-      .json({ message: "Forbidden." });
+    return res.status(HttpStatusCodes.FORBIDDEN).json({ message: "Forbidden." });
   };
 }
