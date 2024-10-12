@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
 });
 
 router.use("/:id/education", educationRouter);
-router.use("/:id/languages", languageRouter);
+router.use("/:id/language", languageRouter);
 
 // router.use("/:id/work-experience");
 // router.use("/:id/job-preferences");

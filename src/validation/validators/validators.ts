@@ -35,6 +35,7 @@ const cityValidator = body("city")
 const countryValidator = body("country")
   .isString()
   .withMessage("Invalid type.")
+  .bail()
   .custom(async (value: string, { req }) => {
     value = value?.trim() ?? "";
     const countries = await prisma.countryLookup.findMany({
@@ -43,8 +44,7 @@ const countryValidator = body("country")
       },
     });
 
-    if (countries.length === 0)
-      return Promise.reject("Country does not exists.");
+    if (countries.length === 0) return Promise.reject("Country does not exists.");
     return true;
   });
 
@@ -62,18 +62,13 @@ const linkedinValidator = body("linkedin", "Please enter a valid Linkedin URL.")
   .withMessage("Linkedin URL cannot be longer than 254 characters.")
   .isURL();
 
-const requiredLinkedinValidator = body(
-  "linkedin",
-  "Please enter a valid Linkedin URL."
-)
+const requiredLinkedinValidator = body("linkedin", "Please enter a valid Linkedin URL.")
   .notEmpty()
   .isLength({ min: 2, max: 100 })
   .withMessage("Linkedin URL cannot be longer than 254 characters.")
   .isURL();
 
-const tokenValidator = query("token")
-  .notEmpty()
-  .withMessage("Token query parameter is required.");
+const tokenValidator = query("token").notEmpty().withMessage("Token query parameter is required.");
 
 const roleValidator = (roles: string[], pathFunction: CallableFunction) =>
   pathFunction("role")
@@ -83,10 +78,7 @@ const roleValidator = (roles: string[], pathFunction: CallableFunction) =>
     .withMessage("Invalid role.");
 
 const checkboxValidator = (field: string) =>
-  body(field)
-    .optional()
-    .isBoolean()
-    .withMessage(`${field} field has an invalid value.`);
+  body(field).optional().isBoolean().withMessage(`${field} field has an invalid value.`);
 
 const requiredCheckboxValidator = (field: string) =>
   body(field)

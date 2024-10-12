@@ -4,6 +4,7 @@ import * as v from "./validators/validators";
 import * as n from "./validators/name.validators";
 import * as p from "./validators/password.validators";
 import * as e from "./validators/education.validators";
+import * as l from "./validators/language.validators";
 
 /**
  * An array of validators used for applicant sign-up.
@@ -130,3 +131,5 @@ export const educationValidators = [
   e.graduationYearValidator,
   e.universityValidator,
 ];
+
+export const languageValidators = [l.languageIdValidator, l.languageLevelValidator];
