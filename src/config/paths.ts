@@ -6,10 +6,10 @@ const paths = {
   sql: path.resolve(__dirname, "../../sql"),
   storage: {
     index: path.resolve(__dirname, "../../storage"),
-    certificate: path.resolve(__dirname, "../../storage/certificate"),
+    workCertificate: path.resolve(__dirname, "../../storage/work-certificate"),
     education: path.resolve(__dirname, "../../storage/education"),
     language: path.resolve(__dirname, "../../storage/language"),
-    resume: path.resolve(__dirname, "../../storage/resume"),
+    cv: path.resolve(__dirname, "../../storage/resume"),
     logo: path.resolve(__dirname, "../../storage/logo"),
   },
 };
