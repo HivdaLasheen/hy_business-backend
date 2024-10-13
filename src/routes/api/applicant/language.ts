@@ -8,6 +8,8 @@ import {
   postLanguage,
   deleteLanguage,
   updateLangLevel,
+  uploadCertificate,
+  getCertificate,
 } from "../../../controllers/applicant/language.controller";
 import { languageValidators } from "../../../validation/validation";
 
@@ -26,6 +28,7 @@ router.delete(
   "/:langId",
   authorization(["applicant"]),
   numberParamValidator("langId"),
+  validateRequest,
   deleteLanguage
 );
 
@@ -41,8 +44,16 @@ router.put(
 router.get(
   "/:langId/certificate",
   authorization(["applicant", "admin"], true),
-  numberParamValidator("langId")
+  numberParamValidator("langId"),
+  validateRequest,
+  getCertificate
 );
-router.post("/:langId/certificate", authorization(["applicant"]), numberParamValidator("langId"));
+router.post(
+  "/:langId/certificate",
+  authorization(["applicant"]),
+  numberParamValidator("langId"),
+  validateRequest,
+  ...uploadCertificate
+);
 
 export default router;
