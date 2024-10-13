@@ -4,7 +4,6 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import timeout from "connect-timeout";
 import { rateLimit } from "express-rate-limit";
-import prisma from "./prisma";
 import config from "./config";
 import errorsHandler from "./errors";
 import pageNotfoundHandler from "./errors/pageNotFound.error";
@@ -16,7 +15,6 @@ import ms from "ms";
 import HttpStatusCodes from "./config/httpStatusCodes";
 
 const app: Application = express();
-const port = config.port;
 const limiter = rateLimit({
   windowMs: ms("15m"),
   limit: 100,
@@ -51,19 +49,7 @@ app.use("/api", apiRouter);
 app.use("/auth", authRouter);
 app.use("/status", statusRouter);
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
-
 app.use(errorsHandler);
 app.use(pageNotfoundHandler);
 
-process.on("SIGINT", async () => {
-  await prisma.$disconnect();
-  process.exit(0);
-});
-
-process.on("SIGTERM", async () => {
-  await prisma.$disconnect();
-  process.exit(0);
-});
+export default app;

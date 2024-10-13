@@ -12,6 +12,10 @@ const paths = {
     cv: path.resolve(__dirname, "../../storage/resume"),
     logo: path.resolve(__dirname, "../../storage/logo"),
   },
+  ssl: {
+    key: "",
+    cert: "",
+  },
 };
 
 export default paths;
