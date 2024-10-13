@@ -31,6 +31,28 @@ async function getWorkExperience(req: Request, res: Response): Promise<any> {
     },
   });
 
+  if (workExperience) {
+    const prevWorkExperience = await prisma.applicantPrevWorkExperience.findMany({
+      where: {
+        applicantId: id,
+      },
+      select: {
+        startDate: true,
+        endDate: true,
+      },
+    });
+
+    workExperience.yearsOfExperience = prevWorkExperience.reduce((acc, curr) => {
+      const startDate = new Date(curr.startDate);
+      const endDate = curr.endDate ? new Date(curr.endDate) : new Date();
+
+      const diff = Math.abs(endDate.getTime() - startDate.getTime());
+      const years = diff / (1000 * 3600 * 24 * 365);
+
+      return Number((acc + years).toFixed(2));
+    }, 0);
+  }
+
   return res.status(HttpStatusCodes.OK).json({
     applicantId: id,
     workExperience: workExperience || {},
