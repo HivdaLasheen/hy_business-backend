@@ -5,6 +5,7 @@ const env = {
   port: process.env.PORT ?? 8000,
   domain: process.env.DOMAIN ?? "localhost",
   envType: process.env.ENV_TYPE ?? "dev",
+  NODE_ENV: process.env.NODE_ENV ?? "development",
   dbUrl: process.env.DB_URL ?? "",
   secretKey: process.env.SECRET_KEY ?? "",
   email: {
