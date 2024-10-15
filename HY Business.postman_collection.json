@@ -1,0 +1,929 @@
+{
+	"info": {
+		"_postman_id": "5ad66c4b-3ef8-4228-9ff9-275e66f6b310",
+		"name": "HY Business",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33667100"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"mlord62713@gmail.com\",\n    \"password\": \"ALIali55\",\n    \"role\": \"applicant\",\n    \"rememberMe\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{authUrl}}/login",
+									"host": [
+										"{{authUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login - Admin",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\",\n    \"rememberMe\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{authUrl}}/admin/login",
+									"host": [
+										"{{authUrl}}"
+									],
+									"path": [
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Signup",
+					"item": [
+						{
+							"name": "Applicant Signup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"lordye1@gmail.com\",\n    \"password\": \"Alo789123\",\n    \"confirmPassword\": \"Alo789123\",\n    \"firstName\": \"Mohammed\",\n    \"lastName\": \"Khalid\",\n    \"dateOfBirth\": \"2002-01-05\",\n    \"gender\": \"male\",\n    \"country\": \"egypt\",\n    \"city\": \"Nasr City\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{authUrl}}/signup/applicant",
+									"host": [
+										"{{authUrl}}"
+									],
+									"path": [
+										"signup",
+										"applicant"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Organization Signup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"kujobasy@azuretechtalk.net\",\n    \"password\": \"Lordy456456\",\n    \"confirmPassword\": \"Lordy456456\",\n    \"name\": \"Meta\",\n    \"type\": \"Copmany\",\n    \"linkedin\": \"https://linkedin.com/meta\",\n    \"isVirtual\": \"true\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{authUrl}}/signup/organization",
+									"host": [
+										"{{authUrl}}"
+									],
+									"path": [
+										"signup",
+										"organization"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Email Verification",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/auth/verify-email?token=blablabbla&role=applicant",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"auth",
+										"verify-email"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "blablabbla"
+										},
+										{
+											"key": "role",
+											"value": "applicant"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Password Reset",
+					"item": [
+						{
+							"name": "Request Password Reset",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"mlord62713@gmail.com\",\n    \"role\": \"applicant\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{authUrl}}/password/request",
+									"host": [
+										"{{authUrl}}"
+									],
+									"path": [
+										"password",
+										"request"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset Password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"password\": \"ALIali55\",\n    \"confirmPassword\": \"ALIali55\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{authUrl}}/password/reset?token=blablalba&role=applicant",
+									"host": [
+										"{{authUrl}}"
+									],
+									"path": [
+										"password",
+										"reset"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "blablalba"
+										},
+										{
+											"key": "role",
+											"value": "applicant"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{authUrl}}/logout",
+							"host": [
+								"{{authUrl}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Applicants",
+			"item": [
+				{
+					"name": "Education",
+					"item": [
+						{
+							"name": "Education",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"graduationYear\": 2004,\n    \"degree\": \"Master\",\n    \"university\": \"Cairo\",\n    \"major\": \"Computer\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/education",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"education"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Education",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"graduationYear\": 2004,\n    \"degree\": \"Master\",\n    \"university\": \"Cairo\",\n    \"major\": \"Computer\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/education",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"education"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Certificate",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/education/certificate",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"education",
+										"certificate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Certificate",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "certificate",
+											"type": "file",
+											"src": ""
+										}
+									]
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/education/certificate",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"education",
+										"certificate"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Language",
+					"item": [
+						{
+							"name": "Language",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/language",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"language"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Language",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"level\": \"A1\",\n    \"languageId\": 56\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/language",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"language"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Language",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/language/1",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"language",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Language",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"level\": \"Fluent\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/language/56/level",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"language",
+										"56",
+										"level"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Language Certificate",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/language/2/certificate",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"language",
+										"2",
+										"certificate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Language Certificate",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "languageCertificate",
+											"type": "file",
+											"src": ""
+										}
+									]
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/language/2/certificate",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"language",
+										"2",
+										"certificate"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Work Experience",
+					"item": [
+						{
+							"name": "Experience",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/experience",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"experience"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Experience",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"role\": \"Back End Developer II\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/experience",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"experience"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CV",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/experience/cv",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"experience",
+										"cv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CV",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "cv",
+											"type": "file",
+											"src": ""
+										}
+									]
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/experience/cv",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"experience",
+										"cv"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Work Certificate",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/experience/certificate",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"experience",
+										"certificate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Work Certificate",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "workCertificate",
+											"type": "file",
+											"src": ""
+										}
+									]
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/experience/certificate",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"experience",
+										"certificate"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Previous Work Experience",
+					"item": [
+						{
+							"name": "Experience - All",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/experience/previous",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"experience",
+										"previous"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Experience",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/experience/previous/10",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"experience",
+										"previous",
+										"10"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Experience",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"jobTitle\": \"Senior Frontend Developer\",\n    \"companyName\": \"Amazon\",\n    \"startDate\": \"2024-10-19\",\n    \"endDate\": \"2023-10-06\",\n    \"description\": \"AWS Developer\",\n    \"technicalSkills\": [\n        {\n            \"name\": \"Python\",\n            \"proficiencyLevel\": \"Expert\"\n        },\n        {\n            \"name\": \"JavaScript\",\n            \"proficiencyLevel\": \"Advanced\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/experience/previous",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"experience",
+										"previous"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Experience",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/experience/previous/12",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"experience",
+										"previous",
+										"12"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Job Preferences",
+					"item": [
+						{
+							"name": "Job Preferences",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/job/preferences",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"job",
+										"preferences"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Job Preferences",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"noticePeriod\": 100,\n    \"remote\": true,\n    \"disruptions\": \"Bad Internet connection from 10 PM to 11 PM.\",\n    \"relocation\": true,\n    \"preferredRegionsCountries\": \"North Africa Countries and UK\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{apiUrl}}/applicant/23/job/preferences",
+									"host": [
+										"{{apiUrl}}"
+									],
+									"path": [
+										"applicant",
+										"23",
+										"job",
+										"preferences"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Status",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/status",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "apiUrl",
+			"value": "http://localhost:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "authUrl",
+			"value": "{{baseUrl}}/auth",
+			"type": "string"
+		}
+	]
+}
