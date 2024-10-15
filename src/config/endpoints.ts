@@ -17,20 +17,29 @@ const endpoints = {
     passwordReset: "/auth/password-reset",
   },
   api: {
-    education: {
-      base: "/api/applicant/:id/education",
-      certificate: "/api/applicant/:id/education/certificate",
-    },
-    language: {
-      base: "/api/applicant/:id/language",
-      delete: "/api/applicant/:id/language/:langId",
-      updateLevel: "/api/applicant/:id/language/:langId/level",
-      certificate: "/api/applicant/:id/language/certificate",
-    },
-    workExperience: {
-      base: "/api/applicant/:id/experience",
-      cv: "/api/applicant/:id/experience/cv",
-      certificate: "/api/applicant/:id/experience/certificate",
+    applicant: {
+      education: {
+        base: "/api/applicant/:id/education",
+        certificate: "/api/applicant/:id/education/certificate",
+      },
+      language: {
+        base: "/api/applicant/:id/language",
+        delete: "/api/applicant/:id/language/:langId",
+        updateLevel: "/api/applicant/:id/language/:langId/level",
+        certificate: "/api/applicant/:id/language/certificate",
+      },
+      workExperience: {
+        base: "/api/applicant/:id/experience",
+        cv: "/api/applicant/:id/experience/cv",
+        certificate: "/api/applicant/:id/experience/certificate",
+      },
+      prevWorkExperience: {
+        base: "/api/applicant/:id/experience/previous",
+        one: "/api/applicant/:id/experience/previous/:expId",
+      },
+      jobPreferences: {
+        base: "/api/applicant/:id/job-preferences",
+      },
     },
   },
 };

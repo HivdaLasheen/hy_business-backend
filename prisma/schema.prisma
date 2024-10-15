@@ -55,8 +55,8 @@ model ApplicantAllowedJobRoles {
   jobRoleId   Int       @map("job_role_id") @db.UnsignedInt
   status      String?   @default("Pending") @db.VarChar(50)
   createdAt   DateTime? @default(now()) @map("created_at") @db.DateTime(0)
-  applicant   Applicant @relation(fields: [applicantId], references: [id], onUpdate: Restrict, map: "applicant_allowed_job_roles_ibfk_1")
-  jobRoles    JobRoles  @relation(fields: [jobRoleId], references: [id], onUpdate: Restrict, map: "applicant_allowed_job_roles_ibfk_2")
+  applicant   Applicant @relation(fields: [applicantId], onDelete: Cascade, references: [id], onUpdate: Restrict, map: "applicant_allowed_job_roles_ibfk_1")
+  jobRoles    JobRoles  @relation(fields: [jobRoleId], onDelete: Cascade, references: [id], onUpdate: Restrict, map: "applicant_allowed_job_roles_ibfk_2")
 
   @@id([applicantId, jobRoleId])
   @@index([jobRoleId], map: "job_role_id")
@@ -70,7 +70,7 @@ model ApplicantAuth {
   emailTokenExp         DateTime? @map("email_token_exp") @db.DateTime(0)
   resetPasswordToken    String?   @unique @map("reset_password_token") @db.VarChar(240)
   resetPasswordTokenExp DateTime? @map("reset_password_token_exp") @db.DateTime(0)
-  applicant             Applicant @relation(fields: [applicantId], references: [id], onUpdate: Restrict, map: "applicant_auth_ibfk_1")
+  applicant             Applicant @relation(fields: [applicantId], onDelete: Cascade, references: [id], onUpdate: Restrict, map: "applicant_auth_ibfk_1")
 
   @@map("applicant_auth")
 }
@@ -128,8 +128,8 @@ model ApplicantPrevWorkExperienceSkills {
   prevWorkId                  Int                                                     @map("prev_work_id") @db.UnsignedInt
   skillId                     Int                                                     @map("skill_id") @db.UnsignedInt
   proficiencyLevel            applicant_prev_work_experience_skills_proficiency_level
-  applicantPrevWorkExperience ApplicantPrevWorkExperience                             @relation(fields: [prevWorkId], references: [id], onUpdate: Restrict, map: "applicant_prev_work_experience_skills_ibfk_1")
-  techSkillsLookup            TechSkillsLookup                                        @relation(fields: [skillId], references: [id], onUpdate: Restrict, map: "applicant_prev_work_experience_skills_ibfk_2")
+  applicantPrevWorkExperience ApplicantPrevWorkExperience                             @relation(fields: [prevWorkId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "applicant_prev_work_experience_skills_ibfk_1")
+  techSkillsLookup            TechSkillsLookup                                        @relation(fields: [skillId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "applicant_prev_work_experience_skills_ibfk_2")
 
   @@id([prevWorkId, skillId])
   @@index([skillId], map: "skill_id")
@@ -152,7 +152,7 @@ model ApplicantsLanguages {
   languageId      Int                        @map("language_id") @db.UnsignedInt
   level           applicants_languages_level
   certificate     String?                    @db.VarChar(512)
-  applicant       Applicant                  @relation(fields: [applicantId], references: [id], onUpdate: Restrict, map: "applicants_languages_ibfk_1")
+  applicant       Applicant                  @relation(fields: [applicantId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "applicants_languages_ibfk_1")
   languagesLookup LanguagesLookup            @relation(fields: [languageId], references: [id], onUpdate: Restrict, map: "applicants_languages_ibfk_2")
 
   @@id([applicantId, languageId])
@@ -176,7 +176,7 @@ model JobDescriptionsRecommendation {
   description String?   @db.VarChar(1024)
   accepted    Boolean?  @default(false)
   createdAt   DateTime? @default(now()) @map("created_at") @db.DateTime(0)
-  jobRoles    JobRoles  @relation(fields: [jobRoleId], references: [id], onUpdate: Restrict, map: "job_descriptions_recommendation_ibfk_1")
+  jobRoles    JobRoles  @relation(fields: [jobRoleId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "job_descriptions_recommendation_ibfk_1")
 
   @@index([jobRoleId], map: "job_role_id")
   @@map("job_descriptions_recommendation")
@@ -198,7 +198,7 @@ model JobRoleSkills {
   jobRoleId        Int                               @map("job_role_id") @db.UnsignedInt
   skillId          Int                               @map("skill_id") @db.UnsignedInt
   proficiencyLevel job_role_skills_proficiency_level
-  jobRoles         JobRoles                          @relation(fields: [jobRoleId], references: [id], onUpdate: Restrict, map: "job_role_skills_ibfk_1")
+  jobRoles         JobRoles                          @relation(fields: [jobRoleId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "job_role_skills_ibfk_1")
   techSkillsLookup TechSkillsLookup                  @relation(fields: [skillId], references: [id], onUpdate: Restrict, map: "job_role_skills_ibfk_2")
 
   @@id([jobRoleId, skillId])
@@ -230,7 +230,7 @@ model JobRoles {
   jobDescriptionsRecommendations JobDescriptionsRecommendation[]
   jobRoleLanguages               JobRoleLanguages[]
   jobRoleSkills                  JobRoleSkills[]
-  organization                   Organization                    @relation(fields: [organizationId], references: [id], onUpdate: Restrict, map: "job_roles_ibfk_1")
+  organization                   Organization                    @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "job_roles_ibfk_1")
 
   @@index([organizationId], map: "organization_id")
   @@map("job_roles")
@@ -273,7 +273,7 @@ model OrganizationAuth {
   emailTokenExp         DateTime?    @map("email_token_exp") @db.DateTime(0)
   resetPasswordToken    String?      @unique @map("reset_password_token") @db.VarChar(240)
   resetPasswordTokenExp DateTime?    @map("reset_password_token_exp") @db.DateTime(0)
-  organization          Organization @relation(fields: [organizationId], references: [id], onUpdate: Restrict, map: "organization_auth_ibfk_1")
+  organization          Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "organization_auth_ibfk_1")
 
   @@map("organization_auth")
 }
@@ -288,7 +288,7 @@ model OrganizationLocations {
   address        String?        @db.VarChar(100)
   zipCode        String?        @map("zip_code") @db.VarChar(20)
   createdAt      DateTime?      @default(now()) @map("created_at") @db.DateTime(0)
-  organization   Organization   @relation(fields: [organizationId], references: [id], onUpdate: Restrict, map: "organization_locations_ibfk_1")
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "organization_locations_ibfk_1")
   countryLookup  CountryLookup? @relation(fields: [countryId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "organization_locations_ibfk_2")
 
   @@index([countryId], map: "country_id")

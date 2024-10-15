@@ -1,16 +1,9 @@
 import { Router } from "express";
 import validateRequest from "../../../middlewares/validateRequest.middleware";
-import { numberParamValidator } from "../../../validation/validators/path-parameter.validators";
+import { numericParamValidator } from "../../../validation/validators/path-parameter.validators";
 import roleAuthorization from "../../../middlewares/roleAuthorization.middleware";
 import idAuthorization from "../../../middlewares/idAuthorization.middleware";
-import {
-  getLanguages,
-  postLanguage,
-  deleteLanguage,
-  updateLangLevel,
-  uploadCertificate,
-  getCertificate,
-} from "../../../controllers/applicant/language.controller";
+import * as l from "../../../controllers/applicant/language.controller";
 import { languageValidators } from "../../../validation/validation";
 
 const router: Router = Router({ mergeParams: true });
@@ -20,40 +13,40 @@ const authorization = (roles: string[], allowAdmin = false) => [
   idAuthorization(allowAdmin),
 ];
 
-router.use(numberParamValidator("id"), validateRequest);
+router.use(numericParamValidator("id"), validateRequest);
 
-router.get("/", authorization(["applicant", "admin"], true), getLanguages);
-router.post("/", authorization(["applicant"]), languageValidators, validateRequest, postLanguage);
+router.get("/", authorization(["applicant", "admin"], true), l.getLanguages);
+router.post("/", authorization(["applicant"]), languageValidators, validateRequest, l.postLanguage);
 router.delete(
   "/:langId",
   authorization(["applicant"]),
-  numberParamValidator("langId"),
+  numericParamValidator("langId"),
   validateRequest,
-  deleteLanguage
+  l.deleteLanguage
 );
 
 router.put(
   "/:langId/level",
   authorization(["applicant"]),
-  numberParamValidator("langId"),
+  numericParamValidator("langId"),
   languageValidators[1], // level validator
   validateRequest,
-  updateLangLevel
+  l.updateLangLevel
 );
 
 router.get(
   "/:langId/certificate",
   authorization(["applicant", "admin"], true),
-  numberParamValidator("langId"),
+  numericParamValidator("langId"),
   validateRequest,
-  getCertificate
+  l.getCertificate
 );
 router.post(
   "/:langId/certificate",
   authorization(["applicant"]),
-  numberParamValidator("langId"),
+  numericParamValidator("langId"),
   validateRequest,
-  ...uploadCertificate
+  ...l.uploadCertificate
 );
 
 export default router;

@@ -7,6 +7,7 @@ import * as e from "./validators/education.validators";
 import * as l from "./validators/language.validators";
 import * as w from "./validators/workExperience.validators";
 import * as j from "./validators/jobPreferences.validators";
+import * as pwe from "./validators/prevWorkExperience.validators";
 
 /**
  * An array of validators used for applicant sign-up.
@@ -144,4 +145,13 @@ export const jobPreferencesValidators = [
   j.remoteValidator,
   j.disruptionsValidator,
   j.preferredRegionsCountriesValidator,
+];
+
+export const prevWorkExperienceValidators = [
+  pwe.jobTitleValidator,
+  pwe.companyValidator,
+  pwe.descriptionValidator,
+  pwe.startDateValidator,
+  pwe.endDateValidator,
+  pwe.technicalSkillsValidator,
 ];

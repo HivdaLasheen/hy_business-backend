@@ -3,6 +3,7 @@ import educationRouter from "./education";
 import languageRouter from "./language";
 import workExperienceRouter from "./workExperience";
 import jobPreferencesRouter from "./jobPreferences";
+import prevWorkExperienceRouter from "./prevWorkExperience";
 
 const router: Router = Router();
 
@@ -12,7 +13,8 @@ router.get("/", (req, res) => {
 
 router.use("/:id/education", educationRouter);
 router.use("/:id/language", languageRouter);
-router.use("/:id/experience", workExperienceRouter);
 router.use("/:id/job/preferences", jobPreferencesRouter);
+router.use("/:id/experience", workExperienceRouter);
+router.use("/:id/experience/previous", prevWorkExperienceRouter);
 
 export default router;

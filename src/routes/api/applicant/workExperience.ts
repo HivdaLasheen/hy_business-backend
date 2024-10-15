@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { numberParamValidator } from "../../../validation/validators/path-parameter.validators";
+import { numericParamValidator } from "../../../validation/validators/path-parameter.validators";
 import roleAuthorization from "../../../middlewares/roleAuthorization.middleware";
 import validateRequest from "../../../middlewares/validateRequest.middleware";
 import idAuthorization from "../../../middlewares/idAuthorization.middleware";
@@ -13,7 +13,7 @@ const authorization = (roles: string[], allowAdmin = false) => [
   idAuthorization(allowAdmin),
 ];
 
-router.use(numberParamValidator("id"), validateRequest);
+router.use(numericParamValidator("id"), validateRequest);
 
 router.get("/", authorization(["applicant", "admin"], true), w.getWorkExperience);
 router.post(
