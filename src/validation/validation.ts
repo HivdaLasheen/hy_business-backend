@@ -1,12 +1,13 @@
-import { body, query } from "express-validator";
 import { emailValidator } from "./validators/email.validators";
+import { body, query } from "express-validator";
 import * as v from "./validators/validators";
 import * as n from "./validators/name.validators";
 import * as p from "./validators/password.validators";
-import * as e from "./validators/education.validators";
 import * as l from "./validators/language.validators";
+import * as e from "./validators/education.validators";
 import * as w from "./validators/workExperience.validators";
 import * as j from "./validators/jobPreferences.validators";
+import * as ir from "./validators/interestedRoles.validators";
 import * as pwe from "./validators/prevWorkExperience.validators";
 
 /**
@@ -155,3 +156,5 @@ export const prevWorkExperienceValidators = [
   pwe.endDateValidator,
   pwe.technicalSkillsValidator,
 ];
+
+export const interestedRolesValidators = [ir.interestedRoleValidator];
