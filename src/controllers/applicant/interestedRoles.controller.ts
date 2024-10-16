@@ -54,6 +54,7 @@ async function postInterestedRole(req: Request, res: Response): Promise<any> {
     id: interestedRole.id,
   });
 }
+
 async function deleteInterestedRole(req: Request, res: Response): Promise<any> {
   const [id, roleId] = [req.params.id, req.params.roleId].map(Number);
 

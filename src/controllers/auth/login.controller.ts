@@ -23,8 +23,7 @@ async function login(req: Request, res: Response): Promise<any> {
   };
 
   const roleTable = role === "applicant" ? "applicant" : "organization";
-  const authRoleTable =
-    role === "applicant" ? "applicantAuth" : "organizationAuth";
+  const authRoleTable = role === "applicant" ? "applicantAuth" : "organizationAuth";
 
   const user = await (prisma[roleTable] as any).findFirst({
     where: {
@@ -67,8 +66,7 @@ async function login(req: Request, res: Response): Promise<any> {
     await sendVerificationEmail(email, verificationToken, role);
 
     return res.status(HttpStatusCodes.UNAUTHORIZED).json({
-      message:
-        "Please verify your email. A new verification email has been sent.",
+      message: "Please verify your email. A new verification email has been sent.",
     });
   }
 
@@ -76,9 +74,7 @@ async function login(req: Request, res: Response): Promise<any> {
 
   setCookie("token", res, jwtToken, rememberMe);
 
-  return res
-    .status(200)
-    .json({ message: "Logged in successfully!", token: jwtToken });
+  return res.status(200).json({ message: "Logged in successfully!", token: jwtToken });
 }
 
 async function adminLogin(req: Request, res: Response): Promise<any> {
@@ -101,30 +97,21 @@ async function adminLogin(req: Request, res: Response): Promise<any> {
 
   if (!admin)
     return res.status(400).json({
-      errors: [
-        createErrorObject("Invalid username or password.", "", "password"),
-      ],
+      errors: [createErrorObject("Invalid username or password.", "", "password")],
     });
 
   const isPasswordMatched = await comparePassword(password, admin.password);
 
   if (!isPasswordMatched)
     return res.status(400).json({
-      errors: [
-        createErrorObject("Invalid username or password.", "", "password"),
-      ],
+      errors: [createErrorObject("Invalid username or password.", "", "password")],
     });
 
-  const jwtToken = generateJwtToken(
-    { id: admin.id, role: "admin" },
-    rememberMe
-  );
+  const jwtToken = generateJwtToken({ role: "admin" }, rememberMe);
 
   setCookie("token", res, jwtToken, rememberMe);
 
-  return res
-    .status(200)
-    .json({ message: "Logged in successfully.", token: jwtToken });
+  return res.status(200).json({ message: "Logged in successfully.", token: jwtToken });
 }
 
 export { login, adminLogin };

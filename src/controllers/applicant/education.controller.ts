@@ -7,7 +7,7 @@ import singleFileUpload from "../../file-upload/singleFile.upload";
 
 async function postEducation(req: Request, res: Response): Promise<any> {
   const id = Number(req.params.id);
-  const { body } = req;
+  const { major, degree, graduationYear, university } = req.body;
 
   const education = await prisma.applicantEducation.findUnique({
     where: {
@@ -19,7 +19,10 @@ async function postEducation(req: Request, res: Response): Promise<any> {
     await prisma.applicantEducation.create({
       data: {
         applicantId: id,
-        ...body,
+        major,
+        degree,
+        graduationYear,
+        university,
       },
     });
   else
@@ -27,12 +30,17 @@ async function postEducation(req: Request, res: Response): Promise<any> {
       where: {
         applicantId: id,
       },
-      data: body,
+      data: {
+        major,
+        degree,
+        graduationYear,
+        university,
+      },
     });
 
   return res
     .status(HttpStatusCodes.OK)
-    .json({ message: "Education details submitted successfully.", body });
+    .json({ message: "Education details submitted successfully." });
 }
 
 async function getEducation(req: Request, res: Response): Promise<any> {

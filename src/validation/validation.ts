@@ -8,6 +8,7 @@ import * as e from "./validators/education.validators";
 import * as w from "./validators/workExperience.validators";
 import * as j from "./validators/jobPreferences.validators";
 import * as ir from "./validators/interestedRoles.validators";
+import * as ap from "./validators/applicantProfile.validators";
 import * as pwe from "./validators/prevWorkExperience.validators";
 
 /**
@@ -158,3 +159,13 @@ export const prevWorkExperienceValidators = [
 ];
 
 export const interestedRolesValidators = [ir.interestedRoleValidator];
+
+export const applicantProfileValidators = [
+  ap.religionValidator,
+  ap.ethnicityValidator,
+  ap.portfolioValidator,
+  ap.githubValidator,
+  ap.linkedinValidator,
+  ap.softSkillsValidator,
+  ap.phoneNumberValidator,
+];

@@ -5,13 +5,11 @@ import workExperienceRouter from "./workExperience";
 import jobPreferencesRouter from "./jobPreferences";
 import prevWorkExperienceRouter from "./prevWorkExperience";
 import interestedRolesRouter from "./interestedRoles";
+import profileRouter from "./profile";
 
 const router: Router = Router();
 
-router.get("/", (req, res) => {
-  res.status(200).json({ message: "applicant" });
-});
-
+router.use("/:id/profile", profileRouter);
 router.use("/:id/education", educationRouter);
 router.use("/:id/language", languageRouter);
 router.use("/:id/job/preferences", jobPreferencesRouter);

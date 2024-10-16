@@ -44,7 +44,10 @@ async function getAllPrevWorkExp(req: Request, res: Response): Promise<any> {
   const id = Number(req.params.id);
   const prevWorkExp = await retrievePrevWorkExp(id);
 
-  return res.status(HttpStatusCodes.OK).json(prevWorkExp);
+  if (prevWorkExp.length !== 0) return res.status(HttpStatusCodes.OK).json(prevWorkExp);
+  return res.status(HttpStatusCodes.NOT_FOUND).json({
+    message: "No previous work experience found.",
+  });
 }
 
 async function getPrevWorkExp(req: Request, res: Response): Promise<any> {
@@ -53,7 +56,10 @@ async function getPrevWorkExp(req: Request, res: Response): Promise<any> {
     record.filter((workExp) => workExp.id === workId)
   );
 
-  return res.status(HttpStatusCodes.OK).json(prevWorkExp[0] ?? {});
+  if (prevWorkExp[0]) return res.status(HttpStatusCodes.OK).json(prevWorkExp[0]);
+  return res.status(HttpStatusCodes.NOT_FOUND).json({
+    message: "No previous work experience found.",
+  });
 }
 
 async function postNewPrevWorkExp(req: Request, res: Response): Promise<any> {
