@@ -4,7 +4,10 @@ import prisma from "../../prisma";
 const dateOfBirthValidator = body("dateOfBirth")
   .notEmpty()
   .withMessage("Date of birth is required.")
-  .isDate()
+  .isString()
+  .matches(/^\d{4}-\d{2}-\d{2}$/)
+  .bail()
+  .isDate({ format: "YYYY-MM-DD" })
   .withMessage("Date of birth must be a valid date.")
   .custom((value) => {
     const today = new Date();

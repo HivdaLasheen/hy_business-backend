@@ -1,12 +1,15 @@
-import { body, query } from "express-validator";
 import { emailValidator } from "./validators/email.validators";
+import { body, query } from "express-validator";
 import * as v from "./validators/validators";
 import * as n from "./validators/name.validators";
 import * as p from "./validators/password.validators";
-import * as e from "./validators/education.validators";
 import * as l from "./validators/language.validators";
+import * as e from "./validators/education.validators";
 import * as w from "./validators/workExperience.validators";
 import * as j from "./validators/jobPreferences.validators";
+import * as ir from "./validators/interestedRoles.validators";
+import * as ap from "./validators/applicantProfile.validators";
+import * as pwe from "./validators/prevWorkExperience.validators";
 
 /**
  * An array of validators used for applicant sign-up.
@@ -144,4 +147,25 @@ export const jobPreferencesValidators = [
   j.remoteValidator,
   j.disruptionsValidator,
   j.preferredRegionsCountriesValidator,
+];
+
+export const prevWorkExperienceValidators = [
+  pwe.jobTitleValidator,
+  pwe.companyValidator,
+  pwe.descriptionValidator,
+  pwe.startDateValidator,
+  pwe.endDateValidator,
+  pwe.technicalSkillsValidator,
+];
+
+export const interestedRolesValidators = [ir.interestedRoleValidator];
+
+export const applicantProfileValidators = [
+  ap.religionValidator,
+  ap.ethnicityValidator,
+  ap.portfolioValidator,
+  ap.githubValidator,
+  ap.linkedinValidator,
+  ap.softSkillsValidator,
+  ap.phoneNumberValidator,
 ];

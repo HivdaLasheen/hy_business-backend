@@ -54,7 +54,6 @@ async function getWorkExperience(req: Request, res: Response): Promise<any> {
   }
 
   return res.status(HttpStatusCodes.OK).json({
-    applicantId: id,
     workExperience: workExperience || {},
   });
 }
@@ -83,7 +82,6 @@ async function createWorkExperience(req: Request, res: Response): Promise<any> {
     });
 
   return res.status(HttpStatusCodes.CREATED).json({
-    applicantId: id,
     role,
   });
 }

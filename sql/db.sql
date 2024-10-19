@@ -51,7 +51,7 @@ CREATE TABLE applicant_auth (
     `email_token_exp` DATETIME,
     `reset_password_token` VARCHAR(240) UNIQUE,
     `reset_password_token_exp` DATETIME,
-    FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`id`)
+    FOREIGN KEY (`applicant_id`) REFERENCES `applicant` (`id`) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS applicant_education;
@@ -99,7 +99,7 @@ CREATE TABLE applicants_languages (
         'Native'
     ) NOT NULL,
     `certificate` VARCHAR(512),
-    FOREIGN KEY (`applicant_id`) REFERENCES applicant (`id`),
+    FOREIGN KEY (`applicant_id`) REFERENCES applicant (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`language_id`) REFERENCES languages_lookup (`id`),
     PRIMARY KEY (`applicant_id`, `language_id`)
 );
@@ -155,8 +155,8 @@ CREATE TABLE applicant_prev_work_experience_skills (
         'Advanced',
         'Expert'
     ) NOT NULL,
-    FOREIGN KEY (`prev_work_id`) REFERENCES applicant_prev_work_experience (`id`),
-    FOREIGN KEY (`skill_id`) REFERENCES tech_skills_lookup (`id`),
+    FOREIGN KEY (`prev_work_id`) REFERENCES applicant_prev_work_experience (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`skill_id`) REFERENCES tech_skills_lookup (`id`) ON DELETE CASCADE,
     PRIMARY KEY (`prev_work_id`, `skill_id`)
 );
 
@@ -187,7 +187,7 @@ CREATE TABLE organization_auth (
     `email_token_exp` DATETIME,
     `reset_password_token` VARCHAR(240) UNIQUE,
     `reset_password_token_exp` DATETIME,
-    FOREIGN KEY (`organization_id`) REFERENCES `organization` (`id`)
+    FOREIGN KEY (`organization_id`) REFERENCES `organization` (`id`) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS organization_locations;
@@ -202,7 +202,7 @@ CREATE TABLE organization_locations (
     `address` VARCHAR(100),
     `zip_code` VARCHAR(20),
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (`organization_id`) REFERENCES `organization` (`id`),
+    FOREIGN KEY (`organization_id`) REFERENCES `organization` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`country_id`) REFERENCES country_lookup (`id`)
 );
 
@@ -228,7 +228,7 @@ CREATE TABLE job_roles (
     `max_period_notice` INT,
     `number_of_vacant` INT,
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (`organization_id`) REFERENCES `organization` (`id`)
+    FOREIGN KEY (`organization_id`) REFERENCES `organization` (`id`) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS job_role_languages;
@@ -244,7 +244,7 @@ CREATE TABLE job_role_languages (
         'Fluent',
         'Native'
     ) NOT NULL,
-    FOREIGN KEY (`job_role_id`) REFERENCES job_roles (`id`),
+    FOREIGN KEY (`job_role_id`) REFERENCES job_roles (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`language_id`) REFERENCES languages_lookup (`id`),
     PRIMARY KEY (`job_role_id`, `language_id`)
 );
@@ -258,7 +258,7 @@ CREATE TABLE job_role_skills (
         'Advanced',
         'Expert'
     ) NOT NULL,
-    FOREIGN KEY (`job_role_id`) REFERENCES job_roles (`id`),
+    FOREIGN KEY (`job_role_id`) REFERENCES job_roles (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`skill_id`) REFERENCES tech_skills_lookup (`id`),
     PRIMARY KEY (`job_role_id`, `skill_id`)
 );
@@ -270,8 +270,8 @@ CREATE TABLE applicant_allowed_job_roles (
     `job_role_id` INT UNSIGNED NOT NULL,
     `status` VARCHAR(50) DEFAULT('Pending'),
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (`applicant_id`) REFERENCES applicant (`id`),
-    FOREIGN KEY (`job_role_id`) REFERENCES job_roles (`id`),
+    FOREIGN KEY (`applicant_id`) REFERENCES applicant (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`job_role_id`) REFERENCES job_roles (`id`) ON DELETE CASCADE,
     PRIMARY KEY (`applicant_id`, `job_role_id`)
 );
 
@@ -291,5 +291,5 @@ CREATE TABLE job_descriptions_recommendation (
     `description` VARCHAR(1024),
     `accepted` TINYINT(1) DEFAULT 0,
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (`job_role_id`) REFERENCES job_roles (`id`)
+    FOREIGN KEY (`job_role_id`) REFERENCES job_roles (`id`) ON DELETE CASCADE
 );

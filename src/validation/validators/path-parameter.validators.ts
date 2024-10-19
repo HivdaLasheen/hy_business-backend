@@ -1,7 +1,9 @@
 import { param } from "express-validator";
 
-const numberParamValidator = (paramName: string) =>
+const numericParamValidator = (paramName: string) =>
   param(paramName)
+    .notEmpty()
+    .withMessage(`${paramName} is required`)
     .isInt()
     .withMessage(`${paramName} must be an integer`)
     .toInt();
@@ -9,4 +11,4 @@ const numberParamValidator = (paramName: string) =>
 const stringValidator = (paramName: string) =>
   param(paramName).isString().withMessage(`${paramName} must be a string`);
 
-export { numberParamValidator, stringValidator };
+export { numericParamValidator, stringValidator };

@@ -18,7 +18,7 @@ async function languageExists(applicantId: number, languageId: number): Promise<
   return !!language;
 }
 
-async function getLanguages(req: Request, res: Response) {
+async function getLanguages(req: Request, res: Response): Promise<any> {
   const id = Number(req.params.id);
 
   const languages = await prisma.applicantsLanguages.findMany({
@@ -36,8 +36,7 @@ async function getLanguages(req: Request, res: Response) {
     },
   });
 
-  res.status(HttpStatusCodes.OK).json({
-    applicantId: id,
+  return res.status(HttpStatusCodes.OK).json({
     language: languages.map((lang) => ({
       ...lang,
       languageName: lang.languagesLookup.name,
