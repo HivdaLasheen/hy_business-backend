@@ -13,6 +13,7 @@ import authRouter from "./routes/auth";
 import statusRouter from "./routes/status";
 import ms from "ms";
 import HttpStatusCodes from "./config/httpStatusCodes";
+import { setupSwagger } from './swagger';
 
 const app: Application = express();
 const limiter = rateLimit({
@@ -43,6 +44,9 @@ if (config.envType === "dev") {
   app.use(morgan("combined"));
   app.use(limiter);
 }
+
+// Setup Swagger documentation
+setupSwagger(app);
 
 app.use("/", indexRouter);
 app.use("/api", apiRouter);
