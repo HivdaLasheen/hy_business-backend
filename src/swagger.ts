@@ -16,6 +16,15 @@ const swaggerOptions = {
         url: 'http://localhost:3000', // Adjust this URL according to your environment
       },
     ],
+    components: {
+      securitySchemes: {
+        Bearer: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT", // Optional, can specify the format as JWT
+        },
+      },
+    },
   },
   apis: ['./src/routes/**/*.ts'], // Adjust the path to your route files as needed
 };

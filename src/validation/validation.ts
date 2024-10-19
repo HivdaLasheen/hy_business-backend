@@ -10,6 +10,7 @@ import * as j from "./validators/jobPreferences.validators";
 import * as ir from "./validators/interestedRoles.validators";
 import * as ap from "./validators/applicantProfile.validators";
 import * as pwe from "./validators/prevWorkExperience.validators";
+import * as org from './validators/organization.validators'; // Adjust the path as necessary
 
 /**
  * An array of validators used for applicant sign-up.
@@ -168,4 +169,13 @@ export const applicantProfileValidators = [
   ap.linkedinValidator,
   ap.softSkillsValidator,
   ap.phoneNumberValidator,
+];
+
+export const organizationProfileValidators = [
+  org.typeValidator,
+  org.industryValidator,
+  org.sizeOfCompanyValidator,
+  org.phoneNumberValidator,
+  org.linkedinValidator,
+  org.websiteValidator,
 ];

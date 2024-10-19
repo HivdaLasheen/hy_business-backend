@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { numericParamValidator } from "../../../validation/validators/path-parameter.validators";
 import roleAuthorization from "../../../middlewares/roleAuthorization.middleware";
-import * as controller from "../../../controllers/applicant/profile.controller";
+import * as controller from "../../../controllers/organization/profile.controller";
 import validateRequest from "../../../middlewares/validateRequest.middleware";
 import idAuthorization from "../../../middlewares/idAuthorization.middleware";
-import { applicantProfileValidators } from "../../../validation/validation";
+import { organizationProfileValidators } from "../../../validation/validation"; // Ensure you have a validators file for organization
 
 const router: Router = Router({ mergeParams: true });
 
@@ -19,73 +19,73 @@ router.use(numericParamValidator("id"), validateRequest);
 /**
  * @swagger
  * tags:
- *   name: Applicant/Profile
- *   description: Applicant management
+ *   name: Organization/Profile
+ *   description: Organization management
  */
 
 /**
  * @swagger
- * /api/applicant:
+ * /api/organization/:
  *   get:
- *     summary: Get applicant profile
- *     tags: [Applicant/Profile]
+ *     summary: Get organization profile
+ *     tags: [Organization/Profile]
  *     security:
  *       - Bearer: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Numeric ID of the applicant
+ *         description: Numeric ID of the organization
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: Applicant profile retrieved successfully
+ *         description: Organization profile retrieved successfully
  *       404:
- *         description: Applicant was not found
+ *         description: Organization was not found
  *       401:
  *         description: Unauthorized
  */
-router.get("/", authorization(["applicant", "admin"]), controller.getApplicantProfile);
+router.get("/", authorization(["organization", "admin"]), controller.getOrganizationProfile);
 
 /**
  * @swagger
- * /api/applicant/pfp:
+ * /api/organization/logo:
  *   get:
- *     summary: Get applicant profile picture
- *     tags: [Applicant/Profile]
+ *     summary: Get organization logo
+ *     tags: [Organization/Profile]
  *     security:
  *       - Bearer: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Numeric ID of the applicant
+ *         description: Numeric ID of the organization
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: Applicant profile picture retrieved successfully
+ *         description: Organization logo retrieved successfully
  *       404:
- *         description: Applicant was not found
+ *         description: Organization was not found
  *       401:
  *         description: Unauthorized
  */
-router.get("/pfp", authorization(["applicant", "admin"]), controller.getPFP);
+router.get("/logo", authorization(["organization", "admin"]), controller.getLogo);
 
 /**
  * @swagger
- * /api/applicant:
+ * /api/organization:
  *   put:
- *     summary: Update applicant profile
- *     tags: [Applicant/Profile]
+ *     summary: Update organization profile
+ *     tags: [Organization/Profile]
  *     security:
  *       - Bearer: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Numeric ID of the applicant
+ *         description: Numeric ID of the organization
  *         schema:
  *           type: integer
  *     requestBody:
@@ -95,21 +95,17 @@ router.get("/pfp", authorization(["applicant", "admin"]), controller.getPFP);
  *           schema:
  *             type: object
  *             properties:
- *               religion:
+ *               type:
  *                 type: string
- *               ethnicity:
+ *               industry:
  *                 type: string
- *               portfolio:
+ *               sizeOfCompany:
  *                 type: string
- *               github:
+ *               phoneNumber:
  *                 type: string
  *               linkedin:
  *                 type: string
- *               softSkills:
- *                 type: array
- *                 items:
- *                   type: string
- *               phoneNumber:
+ *               website:
  *                 type: string
  *     responses:
  *       200:
@@ -117,31 +113,31 @@ router.get("/pfp", authorization(["applicant", "admin"]), controller.getPFP);
  *       400:
  *         description: Bad request
  *       404:
- *         description: Applicant was not found
+ *         description: Organization was not found
  *       401:
  *         description: Unauthorized
  */
 router.put(
   "/",
-  authorization(["applicant"]),
-  applicantProfileValidators,
+  authorization(["organization"]),
+  organizationProfileValidators,
   validateRequest,
   controller.putProfile
 );
 
 /**
  * @swagger
- * /api/applicant/pfp:
+ * /api/organization/logo:
  *   post:
- *     summary: Upload applicant profile picture
- *     tags: [Applicant/Profile]
+ *     summary: Upload organization logo
+ *     tags: [Organization/Profile]
  *     security:
  *       - Bearer: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Numeric ID of the applicant
+ *         description: Numeric ID of the organization
  *         schema:
  *           type: integer
  *     requestBody:
@@ -151,19 +147,19 @@ router.put(
  *           schema:
  *             type: object
  *             properties:
- *               pfp:
+ *               logo:
  *                 type: string
  *                 format: binary
  *     responses:
  *       200:
- *         description: Profile picture uploaded successfully
+ *         description: Logo uploaded successfully
  *       400:
  *         description: Bad request
  *       404:
- *         description: Applicant was not found
+ *         description: Organization was not found
  *       401:
  *         description: Unauthorized
  */
-router.post("/pfp", authorization(["applicant"]), ...controller.uploadPfp);
+router.post("/logo", authorization(["organization"]), ...controller.uploadLogo);
 
 export default router;
