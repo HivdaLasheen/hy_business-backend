@@ -9,13 +9,13 @@ async function addOrganizationLocation(req: Request, res: Response): Promise<any
   try {
     const newLocation = await prisma.organizationLocations.create({
       data: {
-        organizationId: organizationId, // Changed to camelCase
-        isHeadOffice: isHeadOffice || false, // Changed to camelCase
-        countryId, // Changed to camelCase
+        organizationId: organizationId, 
+        isHeadOffice: isHeadOffice || false, 
+        countryId, 
         state,
         city,
         address,
-        zipCode, // Changed to camelCase
+        zipCode, 
       },
     });
 
@@ -33,7 +33,7 @@ async function getOrganizationLocations(req: Request, res: Response): Promise<an
   try {
     const locations = await prisma.organizationLocations.findMany({
       where: {
-        organizationId: organizationId, // Changed to camelCase
+        organizationId: organizationId, 
       },
     });
 
