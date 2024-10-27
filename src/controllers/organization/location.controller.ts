@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../../prisma";
 import HttpStatusCodes from "../../config/httpStatusCodes";
+
 // Function to add a new location for an organization
 async function addOrganizationLocation(req: Request, res: Response): Promise<any> {
   const organizationId = Number(req.params.id);
@@ -10,7 +11,7 @@ async function addOrganizationLocation(req: Request, res: Response): Promise<any
     const newLocation = await prisma.organizationLocations.create({
       data: {
         organizationId: organizationId, 
-        isHeadOffice: isHeadOffice || false, 
+        isHeadOffice: isHeadOffice, 
         countryId, 
         state,
         city,
