@@ -1,5 +1,6 @@
 import { Router } from "express";
 import organizationRouter from "./profile";
+import locationRouter from "./location";
 
 const router: Router = Router();
 
@@ -28,5 +29,7 @@ router.get("/", (req, res) => {
 
 // Define nested routes for applicant-related data
 router.use("/:id/profile", organizationRouter);
+router.use("/:id/location", locationRouter);
+
 
 export default router;
