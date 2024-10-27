@@ -1,21 +1,21 @@
-import body  from "express-validator";
+import { body } from "express-validator";
 import prisma from "../../prisma";
 
 // Common location validators
 export const locationValidators = [
-  body("countryId")
-    .optional()
-    .isInt({ gt: 0 })
-    .withMessage("Country ID must be a positive integer.")
-    .custom(async (value) => {
-      const countryExists = await prisma.country_lookup.findUnique({
-        where: { id: value },
-      });
-      if (!countryExists) {
-        return Promise.reject("Country ID does not exist.");
-      }
-      return true;
-    }),
+  // body("countryId")
+  //   .optional()
+  //   .isInt({ gt: 0 })
+  //   .withMessage("Country ID must be a positive integer.")
+  //   .custom(async (value: number) => {
+  //     const countryExists = await prisma.country_lookup.findUnique({
+  //       where: { id: value },
+  //     });
+  //     if (!countryExists) {
+  //       return Promise.reject("Country ID does not exist.");
+  //     }
+  //     return true;
+  //   }),
 
   body("state")
     .optional()
@@ -48,5 +48,5 @@ export const locationValidators = [
   body("isHeadOffice")
     .optional()
     .isBoolean()
-    .withMessage("isHeadOffice must be a boolean value.")
+    .withMessage("isHeadOffice must be a boolean value."),
 ];

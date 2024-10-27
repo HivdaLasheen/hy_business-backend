@@ -36,15 +36,12 @@ export const nameValidator = body("name")
   .isString().withMessage("Name must be a string.");
 
   export const emailValidator = body("email")
-  .withMessage("Email is required.")
-  .isEmail()
-  .withMessage("Please enter a valid email address.")
-  .isLength({ max: 254 })
-  .withMessage("Email cannot be longer than 254 characters.")
+  .isEmail().withMessage("Please enter a valid email address.")
+  .isLength({ max: 254 }).withMessage("Email cannot be longer than 254 characters.")
   .normalizeEmail()
-  .trim();
+  .trim()
   .custom(async (value, { req }) => {
-    const organizationId = Number(req.params.id); // Organization ID from request params
+    const organizationId = req.params?.id ? Number(req.params.id) : 0; // Organization ID from request params
     const emailExists = await prisma.organization.findFirst({
       where: {
         email: value,
@@ -57,4 +54,3 @@ export const nameValidator = body("name")
     }
     return true;
   });
-
