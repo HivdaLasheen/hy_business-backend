@@ -13,18 +13,24 @@ const authorization = (roles: string[], allowAdmin = false) => [
   idAuthorization(allowAdmin),
 ];
 
-
 router.use(numericParamValidator("id"), validateRequest);
 
 /**
  * @swagger
- * /api/applicant/work-experience:
+ * /api/applicant/{id}/experience:
  *   get:
  *     summary: Retrieve work experience for a specific applicant
  *     tags:
  *       - Applicant/WorkExperience
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the applicant
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: Successfully retrieved work experience
@@ -56,13 +62,20 @@ router.get("/", authorization(["applicant", "admin"], true), w.getWorkExperience
 
 /**
  * @swagger
- * /api/applicant/work-experience:
+ * /api/applicant/{id}/experience:
  *   post:
  *     summary: Add new work experience for an applicant
  *     tags:
  *       - Applicant/WorkExperience
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the applicant
+ *         schema:
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
@@ -100,13 +113,20 @@ router.post(
 
 /**
  * @swagger
- * /api/applicant/work-experience/cv:
+ * /api/applicant/{id}/experience/cv:
  *   get:
  *     summary: Retrieve CV for a specific applicant
  *     tags:
  *       - Applicant/WorkExperience
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the applicant
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: Successfully retrieved CV
@@ -119,13 +139,20 @@ router.get("/cv", authorization(["applicant", "admin"], true), w.getCV);
 
 /**
  * @swagger
- * /api/applicant/work-experience/cv:
+ * /api/applicant/{id}/experience/cv:
  *   post:
  *     summary: Upload CV for an applicant
  *     tags:
  *       - Applicant/WorkExperience
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the applicant
+ *         schema:
+ *           type: integer
  *     responses:
  *       201:
  *         description: CV uploaded successfully
@@ -136,13 +163,20 @@ router.post("/cv", authorization(["applicant"]), ...w.uploadCV);
 
 /**
  * @swagger
- * /api/applicant/work-experience/certificate:
+ * /api/applicant/{id}/experience/certificate:
  *   get:
  *     summary: Retrieve work experience certificate for an applicant
  *     tags:
  *       - Applicant/WorkExperience
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the applicant
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: Successfully retrieved work experience certificate
@@ -155,13 +189,20 @@ router.get("/certificate", authorization(["applicant", "admin"], true), w.getCer
 
 /**
  * @swagger
- * /api/applicant/work-experience/certificate:
+ * /api/applicant/{id}/experience/certificate:
  *   post:
  *     summary: Upload a work experience certificate for an applicant
  *     tags:
  *       - Applicant/WorkExperience
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the applicant
+ *         schema:
+ *           type: integer
  *     responses:
  *       201:
  *         description: Certificate uploaded successfully

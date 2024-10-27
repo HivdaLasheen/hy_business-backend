@@ -1,7 +1,7 @@
 import { Router } from "express";
 import applicantRouter from "./applicant";
 import organizationRouter from "./organization";
-
+import adminRouter from "./admin";
 import auth from "../../middlewares/auth.middleware";
 
 const router: Router = Router();
@@ -32,5 +32,6 @@ router.get("/ping", (req, res) => {
 // Use the applicant router for applicant-related routes
 router.use("/applicant", auth, applicantRouter);
 router.use("/organization", auth, organizationRouter);
+router.use("/admin", auth, adminRouter);
 
 export default router;
