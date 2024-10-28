@@ -28,7 +28,7 @@ router.use(numericParamValidator("id"), validateRequest);
 
 /**
  * @swagger
- * /api/job-roles:
+ * /api/job-role:
  *   get:
  *     summary: Retrieve all job roles
  *     tags: [JobRoles]
@@ -44,7 +44,7 @@ router.get("/", authorization(["admin", "organization"]), controller.getAllJobRo
 
 /**
  * @swagger
- * /api/job-roles:
+ * /api/job-role:
  *   post:
  *     summary: Create a new job role
  *     tags: [JobRoles]
@@ -91,7 +91,7 @@ router.post(
 
 /**
  * @swagger
- * /api/job-roles/{id}:
+ * /api/job-role/{jobRoleId}:
  *   put:
  *     summary: Update a job role by ID
  *     tags: [JobRoles]
@@ -162,7 +162,7 @@ router.put(
 
 /**
  * @swagger
- * /api/job-roles/{id}:
+ * /api/job-role/{jobRoleId}:
  *   patch:
  *     summary: Update a job role status to closed by ID
  *     tags: [JobRoles]
@@ -189,7 +189,7 @@ router.patch("/:jobRoleId/close", authorization(["organization"]), controller.cl
 
 /**
  * @swagger
- * /api/job-roles/{id}:
+ * /api/job-role/{jobRoleId}:
  *   delete:
  *     summary: Delete a job role by ID
  *     tags: [JobRoles]

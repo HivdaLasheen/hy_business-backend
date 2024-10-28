@@ -31,7 +31,7 @@ router.get("/", (req, res) => {
 // Define nested routes for applicant-related data
 router.use("/:id/profile", organizationRouter);
 router.use("/:id/location", locationRouter);
-router.use("/:id/jobrole", jobRoleRouter);
+router.use("/:id/job-role", jobRoleRouter);
 
 
 export default router;
