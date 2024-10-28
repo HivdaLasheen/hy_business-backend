@@ -10,20 +10,24 @@ async function addOrganizationLocation(req: Request, res: Response): Promise<any
   try {
     const newLocation = await prisma.organizationLocations.create({
       data: {
-        organizationId: organizationId, 
-        isHeadOffice: isHeadOffice, 
-        countryId, 
+        organizationId: organizationId,
+        isHeadOffice: isHeadOffice,
+        countryId,
         state,
         city,
         address,
-        zipCode, 
+        zipCode,
       },
     });
 
-    return res.status(HttpStatusCodes.CREATED).json({ message: "Location added successfully.", location: newLocation });
+    return res
+      .status(HttpStatusCodes.CREATED)
+      .json({ message: "Location added successfully.", location: newLocation });
   } catch (error) {
     console.error(error);
-    return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ error: "Error adding location." });
+    return res
+      .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: "Error adding location." });
   }
 }
 
@@ -34,30 +38,35 @@ async function getOrganizationLocations(req: Request, res: Response): Promise<an
   try {
     const locations = await prisma.organizationLocations.findMany({
       where: {
-        organizationId: organizationId, 
+        organizationId: organizationId,
       },
     });
 
     return res.status(HttpStatusCodes.OK).json(locations);
   } catch (error) {
     console.error(error);
-    return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ error: "Error fetching locations." });
+    return res
+      .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: "Error fetching locations." });
   }
 }
 
 // Function to delete a location for an organization
 async function deleteOrganizationLocation(req: Request, res: Response): Promise<any> {
   const locationId = Number(req.params.locationId);
+  const organizationId = Number(req.params.id);
 
   try {
     await prisma.organizationLocations.delete({
-      where: { id: locationId },
+      where: { id: locationId, organizationId },
     });
 
     return res.status(HttpStatusCodes.OK).json({ message: "Location deleted successfully." });
   } catch (error) {
     console.error(error);
-    return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ error: "Error deleting location." });
+    return res
+      .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: "Error deleting location." });
   }
 }
 
