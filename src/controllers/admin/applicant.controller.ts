@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Fuse from "fuse.js";
 import prisma from "../../prisma";
 import HttpStatusCodes from "../../config/httpStatusCodes";
+import createErrorObject from "../../utils/createValidationErrorObject";
 
 async function searchApplicants(req: Request, res: Response): Promise<any> {
   const { value, page = 1, limit = 15, key } = req.query;
@@ -51,4 +52,51 @@ async function searchApplicants(req: Request, res: Response): Promise<any> {
   return res.status(HttpStatusCodes.OK).json(paginatedResults);
 }
 
-export { searchApplicants };
+async function assignJobToApplicant(req: Request, res: Response): Promise<any> {
+  const [jobId, applicantId] = [req.params.jobId, req.params.applicantId].map(Number);
+  const { status } = req.body;
+
+  if (!status || typeof status !== "string")
+    return res.status(HttpStatusCodes.BAD_REQUEST).json({
+      errors: [createErrorObject("Status is required and must be a string.", status, "status")],
+    });
+
+  const job = await prisma.jobRoles.findUnique({ where: { id: jobId, status: "active" } });
+  const applicant = await prisma.applicant.findUnique({ where: { id: applicantId } });
+
+  if (!job || !applicant)
+    return res.status(HttpStatusCodes.NOT_FOUND).json({ error: "Job or applicant not found." });
+
+  const allowedJobRole = await prisma.applicantAllowedJobRoles.findUnique({
+    where: { applicantId_jobRoleId: { applicantId, jobRoleId: jobId } },
+  });
+
+  if (allowedJobRole)
+    return res.status(HttpStatusCodes.BAD_REQUEST).json({
+      error: "Applicant already has this job role.",
+    });
+
+  const updatedApplicant = await prisma.applicantAllowedJobRoles.create({
+    data: { status: "Waiting", applicantId, jobRoleId: jobId },
+  });
+
+  return res.status(HttpStatusCodes.OK).json(updatedApplicant);
+}
+
+async function deleteAllowedJobRole(req: Request, res: Response): Promise<any> {
+  const [jobId, applicantId] = [req.params.jobId, req.params.applicantId].map(Number);
+
+  try {
+    const deletedAllowedJobRole = await prisma.applicantAllowedJobRoles.delete({
+      where: {
+        applicantId_jobRoleId: { applicantId: applicantId, jobRoleId: jobId },
+      },
+    });
+
+    return res.status(HttpStatusCodes.OK).json(deletedAllowedJobRole);
+  } catch {
+    return res.status(HttpStatusCodes.NOT_FOUND).json({ error: "Job role not found." });
+  }
+}
+
+export { searchApplicants, assignJobToApplicant, deleteAllowedJobRole };

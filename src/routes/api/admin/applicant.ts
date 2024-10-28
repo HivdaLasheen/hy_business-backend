@@ -70,4 +70,38 @@ router.get(
   c.searchApplicants
 );
 
+router.post(
+  "/:applicantId/job/assign/:jobId",
+  authorization(["admin"]),
+  numericParamValidator("jobId"),
+  numericParamValidator("applicantId"),
+  validateRequest,
+  c.assignJobToApplicant
+);
+
+router.delete(
+  "/:applicantId/job/:jobId",
+  authorization(["admin"]),
+  numericParamValidator("jobId"),
+  numericParamValidator("applicantId"),
+  validateRequest,
+  c.deleteAllowedJobRole
+);
+
+router.get(
+  "/:applicantId/job/status/:jobId",
+  authorization(["admin"]),
+  numericParamValidator("jobId"),
+  numericParamValidator("applicantId"),
+  validateRequest
+);
+
+router.put(
+  "/:applicantId/job/status/:jobId",
+  authorization(["admin"]),
+  numericParamValidator("jobId"),
+  numericParamValidator("applicantId"),
+  validateRequest
+);
+
 export default router;
