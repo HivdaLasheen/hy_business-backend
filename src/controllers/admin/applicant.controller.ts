@@ -56,7 +56,7 @@ async function assignJobToApplicant(req: Request, res: Response): Promise<any> {
   const [jobId, applicantId] = [req.params.jobId, req.params.applicantId].map(Number);
   const { status } = req.body;
 
-  if (!status || typeof status !== "string")
+  if (!status || typeof status !== "string" || status.length > 50)
     return res.status(HttpStatusCodes.BAD_REQUEST).json({
       errors: [createErrorObject("Status is required and must be a string.", status, "status")],
     });
@@ -77,7 +77,7 @@ async function assignJobToApplicant(req: Request, res: Response): Promise<any> {
     });
 
   const updatedApplicant = await prisma.applicantAllowedJobRoles.create({
-    data: { status: "Waiting", applicantId, jobRoleId: jobId },
+    data: { status, applicantId, jobRoleId: jobId },
   });
 
   return res.status(HttpStatusCodes.OK).json(updatedApplicant);
@@ -99,4 +99,53 @@ async function deleteAllowedJobRole(req: Request, res: Response): Promise<any> {
   }
 }
 
-export { searchApplicants, assignJobToApplicant, deleteAllowedJobRole };
+async function getApplicantJobStatus(req: Request, res: Response): Promise<any> {
+  const [jobId, applicantId] = [req.params.jobId, req.params.applicantId].map(Number);
+
+  const allowedJobRole = await prisma.applicantAllowedJobRoles.findUnique({
+    where: { applicantId_jobRoleId: { applicantId, jobRoleId: jobId } },
+  });
+
+  if (!allowedJobRole)
+    return res.status(HttpStatusCodes.NOT_FOUND).json({ error: "Job role not found." });
+
+  return res.status(HttpStatusCodes.OK).json(allowedJobRole);
+}
+
+async function updateApplicantJobStatus(req: Request, res: Response): Promise<any> {
+  const [jobId, applicantId] = [req.params.jobId, req.params.applicantId].map(Number);
+  const { status } = req.body;
+
+  if (!status || typeof status !== "string" || status.length > 50)
+    return res.status(HttpStatusCodes.BAD_REQUEST).json({
+      errors: [
+        createErrorObject(
+          "Status is required and must be a string and less than 50 characters.",
+          status,
+          "status"
+        ),
+      ],
+    });
+
+  const allowedJobRole = await prisma.applicantAllowedJobRoles.findUnique({
+    where: { applicantId_jobRoleId: { applicantId, jobRoleId: jobId } },
+  });
+
+  if (!allowedJobRole)
+    return res.status(HttpStatusCodes.NOT_FOUND).json({ error: "Job role not found." });
+
+  const updatedAllowedJobRole = await prisma.applicantAllowedJobRoles.update({
+    where: { applicantId_jobRoleId: { applicantId, jobRoleId: jobId } },
+    data: { status },
+  });
+
+  return res.status(HttpStatusCodes.OK).json(updatedAllowedJobRole);
+}
+
+export {
+  searchApplicants,
+  assignJobToApplicant,
+  deleteAllowedJobRole,
+  getApplicantJobStatus,
+  updateApplicantJobStatus,
+};

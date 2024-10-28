@@ -93,7 +93,8 @@ router.get(
   authorization(["admin"]),
   numericParamValidator("jobId"),
   numericParamValidator("applicantId"),
-  validateRequest
+  validateRequest,
+  c.getApplicantJobStatus
 );
 
 router.put(
@@ -101,7 +102,8 @@ router.put(
   authorization(["admin"]),
   numericParamValidator("jobId"),
   numericParamValidator("applicantId"),
-  validateRequest
+  validateRequest,
+  c.updateApplicantJobStatus
 );
 
 export default router;
