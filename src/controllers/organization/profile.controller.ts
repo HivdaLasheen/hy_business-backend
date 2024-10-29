@@ -6,6 +6,7 @@ import HttpStatusCodes from "../../config/httpStatusCodes";
 import singleFileUpload from "../../file-upload/singleFile.upload";
 import sharp from "sharp";
 
+
 // Function to retrieve organization profile by ID
 async function retrieveOrganizationProfile(id: number) {
   return await prisma.organization
@@ -36,21 +37,25 @@ async function getOrganizationProfile(req: Request, res: Response): Promise<any>
   const id = Number(req.params.id);
   const profile = await retrieveOrganizationProfile(id);
 
-  if (!profile)
+  if (!profile) {
     return res.status(HttpStatusCodes.NOT_FOUND).json({ error: "Organization was not found." });
+  }
   return res.status(HttpStatusCodes.OK).json(profile);
 }
 
 // Function to update organization profile
 async function putProfile(req: Request, res: Response): Promise<any> {
   const id = Number(req.params.id);
-  const { type, industry, sizeOfCompany, phoneNumber, linkedin, website } = req.body;
+  const { email,name, type, isVirtual, industry, sizeOfCompany, phoneNumber, linkedin, website } = req.body;
 
   await prisma.organization.update({
     where: {
       id,
     },
     data: {
+      email,
+      name,
+      isVirtual,
       type,
       industry,
       sizeOfCompany,

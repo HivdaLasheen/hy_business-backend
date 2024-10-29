@@ -2,6 +2,7 @@ import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import { Application } from "express"; // Ensure this is imported from express
 import config from "./config";
+
 // Swagger options
 const swaggerOptions = {
   definition: {

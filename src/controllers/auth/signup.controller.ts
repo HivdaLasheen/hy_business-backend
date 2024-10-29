@@ -92,7 +92,7 @@ async function organizationSignup(req: Request, res: Response): Promise<any> {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { email, password, name, type, linkedin, isVirtual } = req.body;
+  const { email, password, name, type, linkedin, isVirtual,phoneNumber } = req.body;
 
   const isEmailTaken =
     (await prisma.applicant.findUnique({
@@ -126,6 +126,7 @@ async function organizationSignup(req: Request, res: Response): Promise<any> {
           type,
           linkedin,
           isVirtual: isVirtual === "true" ? true : false,
+          phoneNumber,
         },
       });
 

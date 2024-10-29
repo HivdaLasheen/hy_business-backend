@@ -186,8 +186,8 @@ model JobRoleLanguages {
   jobRoleId       Int                      @map("job_role_id") @db.UnsignedInt
   languageId      Int                      @map("language_id") @db.UnsignedInt
   level           job_role_languages_level
-  jobRoles        JobRoles                 @relation(fields: [jobRoleId], references: [id], onUpdate: Restrict, map: "job_role_languages_ibfk_1")
-  languagesLookup LanguagesLookup          @relation(fields: [languageId], references: [id], onUpdate: Restrict, map: "job_role_languages_ibfk_2")
+  jobRoles        JobRoles                 @relation(fields: [jobRoleId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "job_role_languages_ibfk_1")
+  languagesLookup LanguagesLookup          @relation(fields: [languageId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "job_role_languages_ibfk_2")
 
   @@id([jobRoleId, languageId])
   @@index([languageId], map: "language_id")

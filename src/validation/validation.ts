@@ -101,6 +101,7 @@ export const organizationSignUpValidators = [
   n.organizationNameValidator,
   v.organizationTypeValidator,
   v.requiredLinkedinValidator,
+  org.phoneNumberValidator,
   v.requiredCheckboxValidator("isVirtual"),
 ];
 
@@ -173,12 +174,14 @@ export const applicantProfileValidators = [
 ];
 
 export const organizationProfileValidators = [
+  org.emailValidator,
   org.typeValidator,
   org.industryValidator,
   org.sizeOfCompanyValidator,
   org.phoneNumberValidator,
   org.linkedinValidator,
   org.websiteValidator,
+  org.nameValidator,
 ];
 
 export const searchApplicantsValidators = [as.searchValue, as.searchKey, as.page, as.limit];
