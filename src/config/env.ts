@@ -11,6 +11,9 @@ const env = {
   email: {
     port: process.env.EMAIL_PORT ?? 465,
     host: process.env.EMAIL_HOST ?? "smtp.gmail.com",
+    secure: process.env.EMAIL_SECURE ?? false,
+    hostSecure: process.env.EMAIL_HOST_SECURE ?? "smtp.gmail.com",
+    portSecure: process.env.EMAIL_PORT_SECURE ?? 465,
     senderMail: process.env.EMAIL_SENDER_MAIL ?? "",
     senderAppPassword: process.env.EMAIL_SENDER_APP_PASSWORD ?? "",
   },

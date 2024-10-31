@@ -61,7 +61,6 @@ const authorization = (roles: string[]) => [roleAuthorization(...roles)];
  *               items:
  *                 $ref: '#/components/schemas/Applicant'
  */
-
 router.get(
   "/search",
   authorization(["admin"]),

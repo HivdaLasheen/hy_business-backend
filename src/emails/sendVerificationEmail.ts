@@ -1,20 +1,15 @@
 import transporter from ".";
 import config from "../config";
 
-export default async function sendVerificationEmail(
-  email: string,
-  token: string,
-  role: string
-) {
-  const fullDomain =
-    config.domain === "localhost" ? `localhost:${config.port}` : config.domain;
+export default async function sendVerificationEmail(email: string, token: string, role: string) {
+  const fullDomain = config.domain === "localhost" ? `localhost:${config.port}` : config.domain;
 
   const verificationLink = encodeURI(
     `http://${fullDomain}/auth/verify-email?token=${token}&role=${role}`
   );
 
   const mailOptions = {
-    from: "noreply@test.com",
+    from: config.email.senderMail,
     to: email,
     subject: "Email Verification",
     html: htmlTemplate(verificationLink),

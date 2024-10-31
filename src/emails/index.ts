@@ -1,11 +1,18 @@
 import nodemailer from "nodemailer";
 import config from "../config";
 
+const isSecure = Boolean(config.email.secure);
+
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: isSecure ? config.email.hostSecure : config.email.host,
+  port: Number(isSecure ? config.email.portSecure : config.email.port),
+  secure: false,
   auth: {
     user: config.email.senderMail,
     pass: config.email.senderAppPassword,
+  },
+  tls: {
+    rejectUnauthorized: false,
   },
 });
 

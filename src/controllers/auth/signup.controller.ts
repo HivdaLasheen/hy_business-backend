@@ -12,17 +12,8 @@ async function applicantSignup(req: Request, res: Response): Promise<any> {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const {
-    email,
-    password,
-    firstName,
-    lastName,
-    middleName,
-    dateOfBirth,
-    gender,
-    country,
-    city,
-  } = req.body;
+  const { email, password, firstName, lastName, middleName, dateOfBirth, gender, country, city } =
+    req.body;
 
   const isEmailTake =
     (await prisma.applicant.findUnique({
@@ -92,7 +83,7 @@ async function organizationSignup(req: Request, res: Response): Promise<any> {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { email, password, name, type, linkedin, isVirtual,phoneNumber } = req.body;
+  const { email, password, name, type, linkedin, isVirtual, phoneNumber } = req.body;
 
   const isEmailTaken =
     (await prisma.applicant.findUnique({
