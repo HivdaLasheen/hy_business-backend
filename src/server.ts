@@ -28,7 +28,15 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-app.use(cors());
+// Configure CORS
+const corsOptions = {
+  origin: 'http://localhost:3001', // Replace with your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'], // Add any other headers you need
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));

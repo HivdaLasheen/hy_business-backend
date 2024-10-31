@@ -158,13 +158,13 @@ router.post("/admin/login", v.adminLoginValidation, adminLogin);
  *               confirmPassword:
  *                 type: string
  *                 example: organizationSecurePassword
- *               orgName:
+ *               name:
  *                 type: string
  *                 example: Example Organization
- *               organizationType:
+ *               type:
  *                 type: string
  *                 example: Non-Profit
- *               linkedinUrl:
+ *               linkedin:
  *                 type: string
  *                 example: https://www.linkedin.com/company/example-organization
  *               isVirtual:
